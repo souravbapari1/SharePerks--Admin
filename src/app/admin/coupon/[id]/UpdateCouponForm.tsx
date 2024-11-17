@@ -90,7 +90,7 @@ function UpdateCouponForm({
           <CouponBasicInfo onSave={onSubmit} />
           <br />
 
-          <TitleCard title="Coupon  Assets">
+          <TitleCard title="Coupon  Assets  (recommended: 1900 x 1000)">
             <div className="p-5">
               <div className="">
                 <FileInput
@@ -105,7 +105,7 @@ function UpdateCouponForm({
               <br />
               <div className="">
                 <FileInput
-                  label="Coupon Banner Image"
+                  label="Coupon Banner Image  (recommended: 1930 x 1000)"
                   onChange={(e) => {
                     if (e.target.files) {
                       setCouponBannerImage(e.target.files[0]);

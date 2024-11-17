@@ -102,7 +102,7 @@ function NewOfferForm({
           <div className="p-5">
             <div className="">
               <FileInput
-                label="Offer Image"
+                label="Offer Image  (recommended: 500 x 500)"
                 onChange={(e) => {
                   if (e.target.files) {
                     setOfferImage(e.target.files[0]);
@@ -113,7 +113,7 @@ function NewOfferForm({
             <br />
             <div className="">
               <FileInput
-                label="Offer Banner Image"
+                label="Offer Banner Image  (recommended: 1930 x 1000)"
                 onChange={(e) => {
                   if (e.target.files) {
                     setOfferBannerImage(e.target.files[0]);

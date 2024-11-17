@@ -81,7 +81,7 @@ function NewCouponForm({
             <div className="p-5">
               <div className="">
                 <FileInput
-                  label="Coupon Image"
+                  label="Coupon Image  (recommended: 1900 x 1000)"
                   onChange={(e) => {
                     if (e.target.files) {
                       setCouponImage(e.target.files[0]);
@@ -92,7 +92,7 @@ function NewCouponForm({
               <br />
               <div className="">
                 <FileInput
-                  label="Coupon Banner Image"
+                  label="Coupon Banner Image (recommended: 1930 x 1000)"
                   onChange={(e) => {
                     if (e.target.files) {
                       setCouponBannerImage(e.target.files[0]);

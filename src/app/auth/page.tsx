@@ -40,7 +40,7 @@ function page() {
         setLoading(false);
       } else {
         toast.success("Logged in successful . Redirect...");
-        route.replace("/admin");
+        window.location.replace("/admin");
       }
     } catch (error) {
       setLoading(false);

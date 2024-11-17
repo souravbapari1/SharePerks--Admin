@@ -120,7 +120,9 @@ function AddBrandForm({
           <TitleCard title="Brand Assets & Category">
             <div className="p-6">
               <div className="">
-                <label>Brand Logo</label>
+                <label>
+                  Brand Logo <small>(recommended: 500 x 500)</small>
+                </label>
                 <FileInput
                   className="mt-2"
                   onChange={(e) => {
@@ -132,7 +134,9 @@ function AddBrandForm({
               </div>
               <br />
               <div className="">
-                <label>Brand Banner Image</label>
+                <label>
+                  Brand Banner Image <small>(recommended: 1930 x 1000)</small>
+                </label>
                 <FileInput
                   className="mt-2"
                   onChange={(e) => {
