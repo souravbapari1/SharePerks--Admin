@@ -23,7 +23,7 @@ export class FormRequest {
     this.init = init;
     this.searchParams = searchParams;
   }
-  append(key: string, file: string | Blob) {
+  append(key: string, file: string | Blob | File) {
     this.formData.append(key, file);
     return new FormRequest(
       this.formData,

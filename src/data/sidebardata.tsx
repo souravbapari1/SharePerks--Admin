@@ -1,34 +1,14 @@
 import { SideBarDataSet } from "@/components/WorkSpace/SideBar/Sidebar";
 import { BiSolidCoupon, BiSolidOffer } from "react-icons/bi";
-import { FaBlog, FaSeedling, FaUser } from "react-icons/fa";
-import { FaEarthAmericas, FaUsersGear } from "react-icons/fa6";
-import { GiFruitTree, GiLogicGateAnd } from "react-icons/gi";
+import { FaUser } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiBanknotes } from "react-icons/hi2";
-import { ImProfile, ImStack } from "react-icons/im";
-import { IoMdCode, IoMdGift } from "react-icons/io";
-import { IoReloadCircleSharp } from "react-icons/io5";
-import {
-  MdAdminPanelSettings,
-  MdAppRegistration,
-  MdCampaign,
-  MdOutlineDashboard,
-  MdOutlineLiveTv,
-} from "react-icons/md";
-import { MdDashboard } from "react-icons/md";
-import {
-  PiGraduationCapFill,
-  PiPiggyBankBold,
-  PiPottedPlantFill,
-  PiProjectorScreenChartBold,
-} from "react-icons/pi";
-import {
-  RiCodeBlock,
-  RiCoupon3Line,
-  RiPagesFill,
-  RiPoliceBadgeLine,
-} from "react-icons/ri";
-import { TbBrandSketch, TbStackPush, TbUserCode } from "react-icons/tb";
+import { ImStack } from "react-icons/im";
+import { IoMdGift } from "react-icons/io";
+import { MdAppRegistration, MdCampaign, MdDashboard } from "react-icons/md";
+import { PiPiggyBankBold } from "react-icons/pi";
+import { RiCoupon3Line } from "react-icons/ri";
+import { TbBrandSketch, TbGiftCard } from "react-icons/tb";
 
 export const menuGroups: SideBarDataSet[] = [
   {
@@ -140,6 +120,15 @@ export const menuGroups: SideBarDataSet[] = [
         icon: <IoMdGift size={20} />,
         label: "Gyftr Brands",
         route: "/admin/gyftr",
+      },
+      {
+        icon: <TbGiftCard size={20} />,
+        label: "Whoow Products",
+        route: "#",
+        children: [
+          { label: "Manage Cards", route: "/admin/whoow/cards" },
+          { label: "Add New", route: "/admin/whoow" },
+        ],
       },
       {
         icon: <MdAppRegistration size={20} />,

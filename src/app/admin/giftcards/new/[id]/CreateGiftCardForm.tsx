@@ -207,15 +207,6 @@ function CreateGiftCardForm({
               label="Description"
             />
             <br />
-            <div className="">
-              <p className="mb-3 block text-sm font-medium text-black dark:text-white">
-                Terms And Conditions
-              </p>
-              <TextEditor
-                content={termsAndConditions}
-                onChange={handleTermsAndConditionsChange}
-              />
-            </div>
           </div>
         </TitleCard>
       </div>
