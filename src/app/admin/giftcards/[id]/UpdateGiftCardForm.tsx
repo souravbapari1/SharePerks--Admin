@@ -84,10 +84,10 @@ function UpdateGiftCardForm({
     }
 
     // Validate terms and conditions
-    if (termsAndConditions.trim().length === 0) {
-      toast.error("Please enter the terms and conditions.");
-      return false;
-    }
+    // if (termsAndConditions.trim().length === 0) {
+    //   toast.error("Please enter the terms and conditions.");
+    //   return false;
+    // }
 
     // Validate broker provider
     if (brokerProvider.value.trim().length === 0) {
