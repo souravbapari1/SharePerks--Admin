@@ -8,27 +8,15 @@ export interface BrandData {
   isActive: boolean;
   provider: string;
   stockISIN: { label: string; value: string };
-  offerTerms: OfferTerm[];
-  cashBackRates: CashBackRate[];
+  offerTerms: string;
+  cashBackRates: string;
   aboutBrand: string;
   bannerImage?: any;
   brandImage?: any;
-  discountHighLights: string;
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
   categoryData?: CategoryData[];
-}
-
-export interface OfferTerm {
-  content: string[];
-  title: string;
-}
-
-export interface CashBackRate {
-  title: string;
-  value: number | string;
-  type: "percent" | "amount";
 }
 
 export interface CategoryData {

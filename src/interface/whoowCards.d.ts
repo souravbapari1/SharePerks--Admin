@@ -11,7 +11,8 @@ export interface WhoowCard {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  brand: Brand;
+  previewImage: string;
+  brandName: string;
 }
 
 export interface Pricing {

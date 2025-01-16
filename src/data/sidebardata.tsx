@@ -57,11 +57,7 @@ export const menuGroups: SideBarDataSet[] = [
         label: "Commissions",
         route: "/admin/commissions",
       },
-      {
-        icon: <BiSolidCoupon size={20} />,
-        label: "Gift Cards",
-        route: "/admin/giftcards",
-      },
+
       {
         icon: <BiSolidOffer size={20} />,
         label: "Offers",
@@ -72,15 +68,15 @@ export const menuGroups: SideBarDataSet[] = [
         ],
       },
 
-      {
-        icon: <RiCoupon3Line size={18} />,
-        label: "Coupons",
-        route: "#",
-        children: [
-          { label: "Manage Coupons", route: "/admin/coupon" },
-          { label: "Add Coupon", route: "/admin/coupon/new" },
-        ],
-      },
+      // {
+      //   icon: <RiCoupon3Line size={18} />,
+      //   label: "Coupons",
+      //   route: "#",
+      //   children: [
+      //     { label: "Manage Coupons", route: "/admin/coupon" },
+      //     { label: "Add Coupon", route: "/admin/coupon/new" },
+      //   ],
+      // },
     ],
   },
   // {
@@ -118,12 +114,16 @@ export const menuGroups: SideBarDataSet[] = [
       },
       {
         icon: <IoMdGift size={20} />,
-        label: "Gyftr Brands",
-        route: "/admin/gyftr",
+        label: "Gyftr Coupons",
+        route: "#",
+        children: [
+          { label: "Manage Brands", route: "/admin/giftcards" },
+          { label: "Add New", route: "/admin/gyftr" },
+        ],
       },
       {
         icon: <TbGiftCard size={20} />,
-        label: "Whoow Products",
+        label: "Whoow Coupons",
         route: "#",
         children: [
           { label: "Manage Cards", route: "/admin/whoow/cards" },

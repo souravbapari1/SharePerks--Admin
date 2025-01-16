@@ -16,6 +16,7 @@ import { WhoowProduct } from "@/interface/whoowProducts";
 import { AdminAuthToken, client } from "@/lib/request/actions";
 import { toast } from "material-react-toastify";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 
@@ -31,7 +32,7 @@ function UpdateForm({
   brands: BrandData[];
 }) {
   const [isEnable, setIsEnable] = useState(product.isEnable);
-  const [provider, setProvider] = React.useState(product.brandId);
+
   const [description, setDescription] = React.useState(product.description);
   const [content, setContent] = React.useState(product.taq || "");
   const [bannerImage, setBannerImage] = React.useState<File | null>(null);
@@ -52,9 +53,6 @@ function UpdateForm({
     ]
   );
 
-  const handleProviderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setProvider(e.target.value);
-  };
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -91,11 +89,6 @@ function UpdateForm({
 
   const validate = () => {
     toast.dismiss();
-    // Check if the provider is selected
-    if (!provider) {
-      toast.error("Please select a provider brand.");
-      return false;
-    }
 
     // Check if description is provided
     if (!description) {
@@ -150,7 +143,7 @@ function UpdateForm({
       try {
         const res = client.patch("/api/v1/whoow/" + product._id).form({
           isEnable: isEnable,
-          brandId: provider,
+
           description: description,
           pricing: JSON.stringify(pricing),
           stockISIN: brokerProvider?.value,
@@ -197,24 +190,26 @@ function UpdateForm({
                 />
               </div>
               <br />
-              <Select
-                label="Provider Brand"
-                className="uppercase"
-                value={provider}
-                onChange={handleProviderChange}
-                options={[
-                  {
-                    label: "",
-                    value: "",
-                  },
-                  ...brands.map((e) => {
-                    return {
-                      label: e.name,
-                      value: e._id!,
-                    };
-                  }),
-                ]}
-              />
+              <div className="flex gap-5">
+                <div className="">
+                  <p>Preview Image</p>
+                  <Image
+                    src={product.data.images.mobile || ""}
+                    alt="Brand"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+
+                <div className="">
+                  <p>Brand Name</p>
+                  <p className="font-bold text-graydark">{product.data.name}</p>
+                </div>
+                <div className="">
+                  <p>Product Code</p>
+                  <p className="font-bold text-graydark">{product.data.sku}</p>
+                </div>
+              </div>
               <br />
               <TextArea
                 label="Description"

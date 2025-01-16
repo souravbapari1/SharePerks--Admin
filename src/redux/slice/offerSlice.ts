@@ -15,7 +15,7 @@ const initialState: OfferData = {
   isInSlide: false,
   link: "",
   linkText: "",
-  offerKeyPoints: [""],
+  offerKeyPoints: "",
   offerTitle: "",
   provider: "",
   stockISIN: "",
@@ -31,20 +31,7 @@ const offerSlice = createSlice({
     ) => {
       return { ...state, [action.payload.key]: action.payload.value };
     },
-    addOfferBenefits: (state) => {
-      return { ...state, offerKeyPoints: [...state.offerKeyPoints, ""] };
-    },
-    setOfferBenefits: (
-      state,
-      action: PayloadAction<{ index: number; value: any }>
-    ) => {
-      const { index, value } = action.payload;
-      state.offerKeyPoints[index] = value;
-    },
-    removeOfferBenefits: (state, action: PayloadAction<number>) => {
-      const index = action.payload;
-      state.offerKeyPoints.splice(index, 1);
-    },
+
     resetOfferManager: () => {
       return initialState;
     },
@@ -56,11 +43,9 @@ const offerSlice = createSlice({
 });
 
 export const {
-  addOfferBenefits,
-  removeOfferBenefits,
   resetOfferManager,
   setMangeOfferValue,
-  setOfferBenefits,
+
   initOffer,
 } = offerSlice.actions;
 
@@ -75,7 +60,7 @@ export const useOfferRedux = () => {
   };
 
   const validateState = () => {
-    if (state.offerKeyPoints.some((e) => e.trim().length == 0)) {
+    if (!state.offerKeyPoints) {
       toast.error("Please Enter  all Offer Benefits ");
       return false;
     }

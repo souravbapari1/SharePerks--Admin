@@ -54,9 +54,14 @@ function ListWhoowProducts({ data }: { data: WhoowProduct[] }) {
                     className="w-14 h-14 bg-gray object-contain"
                   />
                 </div>
-                <p className="hidden text-black dark:text-white sm:block">
-                  {e.name}
-                </p>
+                <div className="">
+                  <p className="hidden text-black dark:text-white sm:block">
+                    {e.name}
+                  </p>
+                  <p className="hidden text-sm font-bold text-black dark:text-white sm:block">
+                    {e.sku}
+                  </p>
+                </div>
               </div>
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">
