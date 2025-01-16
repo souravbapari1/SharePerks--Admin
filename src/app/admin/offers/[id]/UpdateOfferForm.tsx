@@ -37,7 +37,7 @@ function UpdateOfferForm({
       .put("/api/v1/offers/" + offer._id)
       .form<OfferData>({
         ...state,
-        offerKeyPoints: JSON.stringify(state.offerKeyPoints),
+        offerKeyPoints: state.offerKeyPoints,
         stockISIN: state.stockISIN?.value,
       });
     if (offerImage) {

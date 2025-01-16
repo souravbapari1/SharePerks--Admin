@@ -12,7 +12,7 @@ export interface OfferData {
   link: string;
   linkText: string;
   category: string;
-  offerKeyPoints: Array<string>;
+  offerKeyPoints: string;
   offerTitle: string;
   provider: string;
   stockISIN: any;

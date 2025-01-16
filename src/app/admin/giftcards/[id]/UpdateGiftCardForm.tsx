@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import Loader from "@/app/loading";
 import { GiftCardData } from "@/interface/giftcard";
 import { stocks } from "@/data/stocks";
+import Image from "next/image";
 
 function UpdateGiftCardForm({
   brands,
@@ -29,7 +30,7 @@ function UpdateGiftCardForm({
   const router = useRouter();
   // State management
   const [activeStatus, setActiveStatus] = useState(data.isEnable || false);
-  const [brandName, setBrandName] = useState(data.brandId || "");
+
   const [description, setDescription] = useState(data.data.Descriptions || "");
   const [termsAndConditions, setTermsAndConditions] = useState(
     data.data.tnc || ""
@@ -70,12 +71,6 @@ function UpdateGiftCardForm({
   const validateStates = () => {
     // Dismiss any previous toast messages
     toast.dismiss();
-
-    // Validate brand name
-    if (brandName.trim().length === 0) {
-      toast.error("Please select the brand name.");
-      return false;
-    }
 
     // Validate description
     if (description.trim().length === 0) {
@@ -120,7 +115,8 @@ function UpdateGiftCardForm({
       let saveTaskQuery = client.put("/api/v1/giftcard/" + data._id).form({
         storeType: "online",
         codeType: data.data.Brandtype,
-        brandId: brandName,
+        previewImage: data.data.BrandImage,
+        brandName: data.data.BrandName,
         denominationList: data.data.denominationList,
         isEnable: activeStatus,
         stockISIN: brokerProvider.value,
@@ -176,24 +172,29 @@ function UpdateGiftCardForm({
               />
             </div>
             <br />
-            <Select
-              label="Provider Brand"
-              className="uppercase"
-              value={brandName}
-              onChange={(e) => setBrandName(e.target.value)}
-              options={[
-                {
-                  label: "",
-                  value: "",
-                },
-                ...brands.map((e) => {
-                  return {
-                    label: e.name,
-                    value: e._id!,
-                  };
-                }),
-              ]}
-            />
+            <div className="flex gap-5">
+              <div className="">
+                <p>Preview Image</p>
+                <Image
+                  src={data.data.BrandImage || ""}
+                  alt="Brand"
+                  width={48}
+                  height={48}
+                />
+              </div>
+
+              <div className="">
+                <p>Brand Name</p>
+                <p className="font-bold text-graydark">{data.data.BrandName}</p>
+              </div>
+              <div className="">
+                <p>Product Code</p>
+                <p className="font-bold text-graydark">
+                  {data.data.BrandProductCode}
+                </p>
+              </div>
+            </div>
+
             <br />
 
             <TextArea

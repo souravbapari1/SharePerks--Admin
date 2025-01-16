@@ -12,6 +12,7 @@ import { WhoowProduct } from "@/interface/whoowProducts";
 import { AdminAuthToken, client } from "@/lib/request/actions";
 import { toast } from "material-react-toastify";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 const TextEditor = dynamic(() => import("@/components/Inputs/TextEditor"), {
@@ -25,7 +26,6 @@ function NewForm({
   brands: BrandData[];
 }) {
   const [isEnable, setIsEnable] = useState(false);
-  const [provider, setProvider] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [content, setContent] = React.useState("");
   const [bannerImage, setBannerImage] = React.useState<File | null>(null);
@@ -41,9 +41,6 @@ function NewForm({
     },
   ]);
 
-  const handleProviderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setProvider(e.target.value);
-  };
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -79,11 +76,6 @@ function NewForm({
 
   const validate = () => {
     toast.dismiss();
-    // Check if the provider is selected
-    if (!provider) {
-      toast.error("Please select a provider brand.");
-      return false;
-    }
 
     // Check if description is provided
     if (!description) {
@@ -139,7 +131,6 @@ function NewForm({
   };
 
   const resetAll = () => {
-    setProvider("");
     setDescription("");
     setContent("");
     setBannerImage(null);
@@ -155,7 +146,8 @@ function NewForm({
           .post("/api/v1/whoow")
           .form({
             isEnable: isEnable,
-            brandId: provider,
+            previewImage: product.images.mobile,
+            brandName: product.name,
             description: description,
             pricing: JSON.stringify(pricing),
             stockISIN: brokerProvider?.value,
@@ -197,24 +189,26 @@ function NewForm({
                 <Switcher enabled={isEnable} setEnabled={setIsEnable} />
               </div>
               <br />
-              <Select
-                label="Provider Brand"
-                className="uppercase"
-                value={provider}
-                onChange={handleProviderChange}
-                options={[
-                  {
-                    label: "",
-                    value: "",
-                  },
-                  ...brands.map((e) => {
-                    return {
-                      label: e.name,
-                      value: e._id!,
-                    };
-                  }),
-                ]}
-              />
+              <div className="flex gap-5">
+                <div className="">
+                  <p>Preview Image</p>
+                  <Image
+                    src={product.images.mobile}
+                    alt="Brand"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+
+                <div className="">
+                  <p>Brand Name</p>
+                  <p className="font-bold text-graydark">{product.name}</p>
+                </div>
+                <div className="">
+                  <p>Product Code</p>
+                  <p className="font-bold text-graydark">{product.sku}</p>
+                </div>
+              </div>
               <br />
               <TextArea
                 label="Description"

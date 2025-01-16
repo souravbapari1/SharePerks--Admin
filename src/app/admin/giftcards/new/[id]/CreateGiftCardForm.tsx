@@ -15,6 +15,7 @@ import { GyftrBrands } from "@/interface/gyftr";
 import { AdminAuthToken, client } from "@/lib/request/actions";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/loading";
+import Image from "next/image";
 
 function CreateGiftCardForm({
   brands,
@@ -27,7 +28,6 @@ function CreateGiftCardForm({
   const router = useRouter();
   // State management
   const [activeStatus, setActiveStatus] = useState(false);
-  const [brandName, setBrandName] = useState("");
   const [description, setDescription] = useState(data.data.Descriptions || "");
   const [termsAndConditions, setTermsAndConditions] = useState(
     data.data.tnc || ""
@@ -62,12 +62,6 @@ function CreateGiftCardForm({
   const validateStates = () => {
     // Dismiss any previous toast messages
     toast.dismiss();
-
-    // Validate brand name
-    if (brandName.trim().length === 0) {
-      toast.error("Please select the brand name.");
-      return false;
-    }
 
     // Validate description
     if (description.trim().length === 0) {
@@ -126,7 +120,8 @@ function CreateGiftCardForm({
         .form({
           storeType: "online",
           codeType: data.data.Brandtype,
-          brandId: brandName,
+          previewImage: data.data.BrandImage,
+          brandName: data.data.BrandName,
           denominationList: data.data.denominationList,
           isEnable: activeStatus,
           stockISIN: brokerProvider.value,
@@ -181,24 +176,30 @@ function CreateGiftCardForm({
               />
             </div>
             <br />
-            <Select
-              label="Provider Brand"
-              className="uppercase"
-              value={brandName}
-              onChange={(e) => setBrandName(e.target.value)}
-              options={[
-                {
-                  label: "",
-                  value: "",
-                },
-                ...brands.map((e) => {
-                  return {
-                    label: e.name,
-                    value: e._id!,
-                  };
-                }),
-              ]}
-            />
+
+            <div className="flex gap-5">
+              <div className="">
+                <p>Preview Image</p>
+                <Image
+                  src={data.data.BrandImage || ""}
+                  alt="Brand"
+                  width={48}
+                  height={48}
+                />
+              </div>
+
+              <div className="">
+                <p>Brand Name</p>
+                <p className="font-bold text-graydark">{data.data.BrandName}</p>
+              </div>
+              <div className="">
+                <p>Product Code</p>
+                <p className="font-bold text-graydark">
+                  {data.data.BrandProductCode}
+                </p>
+              </div>
+            </div>
+
             <br />
 
             <TextArea

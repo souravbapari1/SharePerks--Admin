@@ -87,7 +87,7 @@ function GiftCardsList() {
                   <div className="flex-shrink-0">
                     <Image
                       src={
-                        client.baseUrl + "/" + e.brand.brandImage ||
+                        e.previewImage ||
                         "https://www.tea-tron.com/antorodriguez/blog/wp-content/uploads/2016/04/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png"
                       }
                       alt="Brand"
@@ -103,9 +103,11 @@ function GiftCardsList() {
 
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
                   <p className="text-meta-3">
-                    {e.pricing.map((e) => {
-                      return e.amount;
-                    })}
+                    {e.pricing
+                      .map((e) => {
+                        return "₹" + e.amount.toFixed(1);
+                      })
+                      .join(" - ")}
                   </p>
                 </div>
 

@@ -51,16 +51,16 @@ function AddBrandForm({
       name: state.name,
       aboutBrand: state.aboutBrand,
       btnText: state.btnText,
-      cashBackRates: JSON.stringify(state.cashBackRates) as any,
+      cashBackRates: state.cashBackRates,
       category: JSON.stringify(
         state.category.map(
           (e: { text: string; value: string }) => e.value as any
         )
       ),
-      discountHighLights: state.discountHighLights,
+
       isActive: state.isActive,
       linkUrl: state.linkUrl,
-      offerTerms: JSON.stringify(state.offerTerms) as any,
+      offerTerms: state.offerTerms,
       provider: state.provider,
       stockISIN: state.stockISIN.value as any,
     };
@@ -90,14 +90,7 @@ function AddBrandForm({
         ...state,
         name: campaign.name,
         aboutBrand: removeHtmlTags(campaign.important_info_html || ""),
-        discountHighLights: removeHtmlTags(campaign.additional_info_html || ""),
-        cashBackRates: campaign.payout_categories.map((e) => {
-          return {
-            title: e.name,
-            value: e.payout,
-            type: "percent",
-          };
-        }),
+        cashBackRates: "",
       };
       dispatch(setMangeBrand(stateData));
     }

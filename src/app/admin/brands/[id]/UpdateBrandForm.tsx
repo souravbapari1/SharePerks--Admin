@@ -44,16 +44,16 @@ function UpdateBrandForm({
       name: state.name,
       aboutBrand: state.aboutBrand,
       btnText: state.btnText,
-      cashBackRates: JSON.stringify(state.cashBackRates) as any,
+      cashBackRates: state.cashBackRates,
       category: JSON.stringify(
         state.category.map(
           (e: { text: string; value: string }) => e.value as any
         )
       ),
-      discountHighLights: state.discountHighLights,
+
       isActive: state.isActive,
       linkUrl: state.linkUrl,
-      offerTerms: JSON.stringify(state.offerTerms) as any,
+      offerTerms: state.offerTerms,
       provider: state.provider,
       stockISIN: state.stockISIN.value as any,
     };

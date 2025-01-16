@@ -45,14 +45,6 @@ function BrandBasicInfo({ onSave }: { onSave: Function }) {
           />
         </div>
         <br />
-        <div className="">
-          <label>Discount Highlights</label>
-          <TextArea
-            className="mt-2"
-            value={state.discountHighLights}
-            onChange={(e) => setValue("discountHighLights", e.target.value)}
-          />
-        </div>
       </div>
     </TitleCard>
   );

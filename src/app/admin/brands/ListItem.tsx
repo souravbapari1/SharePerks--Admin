@@ -85,7 +85,7 @@ function ListItem({
             alt="Brand"
             width={48}
             height={48}
-            className="w-14 h-14 bg-gray object-cover rounded-full"
+            className="w-14 h-14 bg-gray object-cover "
           />
         </div>
         <p className="hidden text-black dark:text-white sm:block">

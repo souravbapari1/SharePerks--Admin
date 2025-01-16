@@ -54,7 +54,7 @@ function NewOfferForm({
         .post("/api/v1/offers")
         .form<OfferData>({
           ...state,
-          offerKeyPoints: JSON.stringify(state.offerKeyPoints),
+          offerKeyPoints: state.offerKeyPoints,
           stockISIN: state.stockISIN?.value,
         })
         .append("bannerImage", offerBannerImage)
@@ -81,7 +81,7 @@ function NewOfferForm({
         offerTitle: campaign.name,
         aboutOffer: removeHtmlTags(campaign.important_info_html || ""),
         commissionRate: campaign.payout,
-        offerKeyPoints: Object.values(campaign.conversion_flow),
+        offerKeyPoints: "",
       };
       dispatch(initOffer(stateData));
     }
