@@ -2,6 +2,7 @@
 import { PopupProvider } from "@/context/popupContext";
 import { store } from "@/redux/store";
 import { Bounce, ToastContainer } from "material-react-toastify";
+import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -11,9 +12,11 @@ function ClientProvider({ children }: { children?: ReactNode }) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <PopupProvider>{children}</PopupProvider>
-        </Provider>
+        <SessionProvider>
+          <Provider store={store}>
+            <PopupProvider>{children}</PopupProvider>
+          </Provider>
+        </SessionProvider>
         <ToastContainer
           position="top-center"
           autoClose={5000}

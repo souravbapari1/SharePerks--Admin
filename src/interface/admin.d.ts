@@ -10,6 +10,7 @@ export interface User {
   image?: string;
   email?: string;
   role?: string;
+  permissions?: any[];
   createdAt?: string;
   updatedAt?: string;
   __v?: number;

@@ -12,6 +12,7 @@ export default function WorkSpace({
   menuGroups: SideBarDataSet[];
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <>
       {/* <!-- ===== Page Wrapper Start ===== --> */}

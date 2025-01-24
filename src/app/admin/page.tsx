@@ -2,7 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 import WorkSpace from "@/components/WorkSpace/WorkSpace";
-import { menuGroups } from "@/data/sidebardata";
+import { isPermissionAllow, menuGroups } from "@/data/sidebardata";
 
 import React, { useEffect, useState } from "react";
 import { IoBagHandleOutline } from "react-icons/io5";
@@ -99,33 +99,35 @@ function page() {
       <br />
 
       <br />
-      <div className="grid lg:grid-cols-3 gap-5">
-        <div className="col-span-2">
-          <PayoutList defaultStatus="pending" title="Payout Requests" />
-        </div>
-        <div className="">
-          <TitleCard title="Pie Chart - Withdraw">
-            <div className="p-5">
-              <PayoutStatusPi
-                cancel={data.payoutPi.cancel}
-                complete={data.payoutPi.complete}
-                failed={data.payoutPi.failed}
-                pending={data.payoutPi.pending}
-              />
-            </div>
-          </TitleCard>
+      {isPermissionAllow("manage_payouts") && (
+        <div className="grid lg:grid-cols-3 gap-5">
+          <div className="col-span-2">
+            <PayoutList defaultStatus="pending" title="Payout Requests" />
+          </div>
+          <div className="">
+            <TitleCard title="Pie Chart - Withdraw">
+              <div className="p-5">
+                <PayoutStatusPi
+                  cancel={data.payoutPi.cancel}
+                  complete={data.payoutPi.complete}
+                  failed={data.payoutPi.failed}
+                  pending={data.payoutPi.pending}
+                />
+              </div>
+            </TitleCard>
 
-          <br />
-          <TitleCard title="Payment Matrix">
-            <div className="p-5">
-              <PaymentMatrixPi
-                inAmount={data.inOutPi.in}
-                out={data.inOutPi.out}
-              />
-            </div>
-          </TitleCard>
+            <br />
+            <TitleCard title="Payment Matrix">
+              <div className="p-5">
+                <PaymentMatrixPi
+                  inAmount={data.inOutPi.in}
+                  out={data.inOutPi.out}
+                />
+              </div>
+            </TitleCard>
+          </div>
         </div>
-      </div>
+      )}
       <br />
     </WorkSpace>
   );

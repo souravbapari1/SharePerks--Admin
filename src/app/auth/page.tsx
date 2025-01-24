@@ -29,6 +29,11 @@ function page() {
         .send();
       localStorage.setItem("token", admin.token);
       localStorage.setItem("admin", JSON.stringify(admin.user));
+      localStorage.setItem(
+        "permission",
+        JSON.stringify(admin.user.permissions)
+      );
+      localStorage.setItem("role", admin.user.role || "");
 
       const res = await signIn("credentials", {
         username: email,

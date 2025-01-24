@@ -6,6 +6,7 @@ import Image from "next/image";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import ClickOutside from "./ClickOutside";
 import SidebarItem from "./SidebarItem";
+import { permissionList } from "@/data/sidebardata";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -20,6 +21,7 @@ export interface SideBarDataSet {
         icon: React.JSX.Element;
         label: string;
         route: string;
+        key?: string | undefined;
         children: {
           label: string;
           route: string;
@@ -30,12 +32,18 @@ export interface SideBarDataSet {
         label: string;
         route: string;
         children?: undefined;
+        key?: string | undefined;
       }
   )[];
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen, menuGroups }: SidebarProps) => {
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+
+  const [permission, setPermission] = useLocalStorage<
+    Partial<typeof permissionList>
+  >("permission", []);
+  const role = localStorage.getItem("role");
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -85,14 +93,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, menuGroups }: SidebarProps) => {
                 </h3>
 
                 <ul className="mb-6 flex flex-col gap-1.5">
-                  {group.menuItems.map((menuItem, menuIndex) => (
-                    <SidebarItem
-                      key={menuIndex + "dsfsf"}
-                      item={menuItem}
-                      pageName={pageName}
-                      setPageName={setPageName}
-                    />
-                  ))}
+                  {group.menuItems
+                    .filter((e) => {
+                      if (role == "ADMIN") {
+                        return true;
+                      }
+                      if (!e.key) {
+                        return true;
+                      } else {
+                        return permission.find((p) => p?.value === e.key);
+                      }
+                    })
+                    .map((menuItem, menuIndex) => (
+                      <SidebarItem
+                        key={menuIndex + "dsfsf"}
+                        item={menuItem}
+                        pageName={pageName}
+                        setPageName={setPageName}
+                      />
+                    ))}
                 </ul>
               </div>
             ))}
