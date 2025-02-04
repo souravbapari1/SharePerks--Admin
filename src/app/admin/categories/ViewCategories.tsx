@@ -1,3 +1,4 @@
+import { downloadExcel } from "@/helper/exceel";
 import { CategoryType } from "@/interface/categoty";
 import { formatDate } from "@/lib/formateTime";
 import { client } from "@/lib/request/actions";
@@ -5,6 +6,7 @@ import { toast } from "material-react-toastify";
 import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { SiMicrosoftexcel } from "react-icons/si";
 import Swal from "sweetalert2";
 
 function ViewCategories({
@@ -51,6 +53,15 @@ function ViewCategories({
 
   return (
     <div className="rounded-sm border lg:col-span-2 border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div
+        onClick={() => {
+          downloadExcel(data, "category-shareperks");
+        }}
+        className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
+      >
+        <SiMicrosoftexcel /> Export
+      </div>
+
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>

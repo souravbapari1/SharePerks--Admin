@@ -32,16 +32,16 @@ function OffersList() {
   return (
     <TitleCard
       title="All Brands"
-      // action={
-      //   <div
-      //     onClick={() => {
-      //       downloadExcel(data, "users-shareperks");
-      //     }}
-      //     className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
-      //   >
-      //     <SiMicrosoftexcel /> Export
-      //   </div>
-      // }
+      action={
+        <div
+          onClick={() => {
+            downloadExcel(data, "offers-shareperks");
+          }}
+          className="bg-green-800  text-white cursor-pointer py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
+        >
+          <SiMicrosoftexcel /> Export
+        </div>
+      }
     >
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">

@@ -9,6 +9,8 @@ import { AdminAuthToken, client } from "@/lib/request/actions";
 import { toast } from "material-react-toastify";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { downloadExcel } from "@/helper/exceel";
+import { SiMicrosoftexcel } from "react-icons/si";
 
 const PayoutList = ({
   defaultStatus = "all",
@@ -122,6 +124,15 @@ const PayoutList = ({
             <option value="failed">Failed</option>
             <option value="cancel">Cancel</option>
           </select>
+
+          <div
+            onClick={() => {
+              downloadExcel(data, "payout-shareperks");
+            }}
+            className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
+          >
+            <SiMicrosoftexcel /> Export
+          </div>
         </div>
       }
     >

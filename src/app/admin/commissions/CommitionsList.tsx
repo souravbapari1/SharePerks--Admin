@@ -1,7 +1,10 @@
+"use client";
 import TitleCard from "@/components/cards/TitleCard";
+import { downloadExcel } from "@/helper/exceel";
 import { CommotionData } from "@/interface/commition";
 import { formatDate } from "@/lib/formateTime";
 import Link from "next/link";
+import { SiMicrosoftexcel } from "react-icons/si";
 
 const CommitionsList = ({
   title,
@@ -11,7 +14,19 @@ const CommitionsList = ({
   data: CommotionData[];
 }) => {
   return (
-    <TitleCard title={title || "All Commissions"}>
+    <TitleCard
+      title={title || "All Commissions"}
+      action={
+        <div
+          onClick={() => {
+            downloadExcel(data, "commissions-shareperks");
+          }}
+          className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
+        >
+          <SiMicrosoftexcel /> Export
+        </div>
+      }
+    >
       <div className="max-w-full overflow-auto">
         <table className="w-full table-auto">
           <thead>

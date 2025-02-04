@@ -13,6 +13,8 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import ListItem from "./ListItem";
+import { downloadExcel } from "@/helper/exceel";
+import { SiMicrosoftexcel } from "react-icons/si";
 
 const BrandsList = () => {
   const [loading, setLoading] = useState(true);
@@ -41,7 +43,19 @@ const BrandsList = () => {
   }
 
   return (
-    <TitleCard title="All Brands">
+    <TitleCard
+      title="All Brands"
+      action={
+        <div
+          onClick={() => {
+            downloadExcel(data, "brands-shareperks");
+          }}
+          className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
+        >
+          <SiMicrosoftexcel /> Export
+        </div>
+      }
+    >
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">

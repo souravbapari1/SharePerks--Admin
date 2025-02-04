@@ -1,6 +1,7 @@
 "use client";
 import Loader from "@/app/loading";
 import TitleCard from "@/components/cards/TitleCard";
+import { downloadExcel } from "@/helper/exceel";
 import { WhoowCard } from "@/interface/whoowCards";
 import { formatDate } from "@/lib/formateTime";
 import { client } from "@/lib/request/actions";
@@ -10,6 +11,7 @@ import Link from "next/link";
 import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import { SiMicrosoftexcel } from "react-icons/si";
 import { useMutation, useQuery } from "react-query";
 
 function GiftCardsList() {
@@ -51,7 +53,19 @@ function GiftCardsList() {
 
   return (
     <div>
-      <TitleCard title="All Cards">
+      <TitleCard
+        title="All Cards"
+        action={
+          <div
+            onClick={() => {
+              downloadExcel(data || [], "whoow-shareperks");
+            }}
+            className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
+          >
+            <SiMicrosoftexcel /> Export
+          </div>
+        }
+      >
         <div className="flex flex-col">
           <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-4">
             <div className="p-2.5 xl:p-5">

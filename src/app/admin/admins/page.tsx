@@ -69,7 +69,19 @@ function page() {
   return (
     <WorkSpace menuGroups={menuGroups}>
       <Breadcrumb pageName="Admin Management" />
-      <TitleCard title="Admins">
+      <TitleCard
+        title="Admins"
+        action={
+          <>
+            <Link
+              href="/admin/admins/new"
+              className="text-sm bg-primary p-3 py-2 rounded-xl text-white"
+            >
+              Add New Admin
+            </Link>
+          </>
+        }
+      >
         <div className="flex flex-col">
           <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
             <div className="p-2.5 xl:p-5">

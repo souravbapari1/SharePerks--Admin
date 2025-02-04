@@ -5,7 +5,13 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { HiBanknotes } from "react-icons/hi2";
 import { ImStack } from "react-icons/im";
 import { IoMdGift } from "react-icons/io";
-import { MdAppRegistration, MdCampaign, MdDashboard } from "react-icons/md";
+import {
+  MdAppRegistration,
+  MdCampaign,
+  MdDashboard,
+  MdEmail,
+  MdMarkEmailUnread,
+} from "react-icons/md";
 import { PiPiggyBankBold } from "react-icons/pi";
 import { RiAdminFill } from "react-icons/ri";
 import { TbBrandSketch, TbGiftCard } from "react-icons/tb";
@@ -192,6 +198,12 @@ export const menuGroups: SideBarDataSet[] = [
         icon: <BiNotification size={20} />,
         label: "Push Notification",
         route: "/admin/push-notification",
+        key: "manage_push_notification",
+      },
+      {
+        icon: <MdMarkEmailUnread size={20} />,
+        label: "Email Alerts",
+        route: "/admin/email",
         key: "manage_push_notification",
       },
       {

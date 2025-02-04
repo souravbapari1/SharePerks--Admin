@@ -1,0 +1,50 @@
+"use client";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import TitleCard from "@/components/cards/TitleCard";
+import TextEditor from "@/components/Inputs/TextEditor";
+import WorkSpace from "@/components/WorkSpace/WorkSpace";
+import { menuGroups } from "@/data/sidebardata";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { sendEmail } from "./actions";
+import { toast } from "material-react-toastify";
+
+function page() {
+  const [content, setContent] = useState("");
+  const mutate = useMutation({
+    mutationFn: async () => {
+      return await sendEmail(content);
+    },
+    onSuccess: () => {
+      toast.success("Email Sent Successfully");
+      setContent("");
+    },
+    onError: () => {
+      toast.error("Failed to send email");
+    },
+  });
+
+  return (
+    <WorkSpace menuGroups={menuGroups}>
+      <Breadcrumb pageName="Email Alerts" />
+      <TitleCard
+        title="Email Alerts"
+        action={
+          <button
+            disabled={mutate.isLoading}
+            className="bg-primary px-4 py-1 text-white rounded-xl"
+            onClick={() => {
+              mutate.mutate();
+            }}
+          >
+            {mutate.isLoading ? "Sending..." : "Send Email"}
+          </button>
+        }
+      >
+        <TextEditor content={content} onChange={setContent} />
+      </TitleCard>
+    </WorkSpace>
+  );
+}
+
+export default page;
