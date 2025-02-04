@@ -14,7 +14,7 @@ import {
 } from "react-icons/md";
 import { PiPiggyBankBold } from "react-icons/pi";
 import { RiAdminFill } from "react-icons/ri";
-import { TbBrandSketch, TbGiftCard } from "react-icons/tb";
+import { TbBrandSketch, TbGiftCard, TbGiftCardFilled } from "react-icons/tb";
 
 export const permissionList = [
   { text: "Manage Customers", value: "manage_customers" },
@@ -187,6 +187,12 @@ export const menuGroups: SideBarDataSet[] = [
           { label: "Manage Cards", route: "/admin/whoow/cards" },
           { label: "Add New", route: "/admin/whoow" },
         ],
+      },
+      {
+        icon: <TbGiftCardFilled size={20} />,
+        label: "Coupons Errors",
+        route: "/admin/giftcards/failed",
+        key: "errors_coupones",
       },
       {
         icon: <MdAppRegistration size={20} />,
