@@ -15,17 +15,27 @@ import Swal from "sweetalert2";
 import ListItem from "./ListItem";
 import { downloadExcel } from "@/helper/exceel";
 import { SiMicrosoftexcel } from "react-icons/si";
+import { BiLoader } from "react-icons/bi";
 
 const BrandsList = () => {
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
-  const [data, setdata] = useState<BrandData[]>([]);
+  const [data, setdata] = useState<{
+    brands: BrandData[];
+    currentPage: number;
+    totalPages: number;
+    totalBrands: number;
+  }>();
 
   const loadBrands = async () => {
     try {
-      const brands = await client
-        .get("/api/v1/brand/all")
-        .send<BrandData[]>(AdminAuthToken());
+      const brands = await client.get(`/api/v1/brand/all/${page}/6`).send<{
+        brands: BrandData[];
+        currentPage: number;
+        totalPages: number;
+        totalBrands: number;
+      }>(AdminAuthToken());
       setdata(brands);
       setLoading(false);
     } catch (error) {
@@ -36,7 +46,7 @@ const BrandsList = () => {
 
   useEffect(() => {
     loadBrands();
-  }, []);
+  }, [page]);
 
   if (loading) {
     return <Loader />;
@@ -48,7 +58,7 @@ const BrandsList = () => {
       action={
         <div
           onClick={() => {
-            downloadExcel(data, "brands-shareperks");
+            downloadExcel(data?.brands || [], "brands-shareperks");
           }}
           className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
         >
@@ -86,10 +96,61 @@ const BrandsList = () => {
           </div>
         </div>
 
-        {data.map((e) => {
+        {data?.brands?.map((e) => {
           return <ListItem data={e} loadBrands={loadBrands} key={e._id} />;
         })}
       </div>
+      {data?.totalPages != 1 && (
+        <div className="flex justify-center items-center gap-2">
+          {page != 1 && (
+            <button
+              onClick={() => {
+                setPage(page - 1);
+              }}
+              className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+            >
+              Prev
+            </button>
+          )}
+          <ul className="flex justify-center items-center gap-4 py-4">
+            {Array.from(Array(data?.totalPages).keys()).map((e) => {
+              return (
+                <li
+                  key={e}
+                  onClick={() => {
+                    setPage(e + 1);
+                  }}
+                  className={`${
+                    page == e + 1 ? "bg-blue-600 text-white " : ""
+                  } text-sm rounded-lg px-4 py-2 cursor-pointer`}
+                >
+                  {page == e + 1 ? (
+                    <>
+                      {loading ? (
+                        <BiLoader className="animate-spin" size={14} />
+                      ) : (
+                        e + 1
+                      )}
+                    </>
+                  ) : (
+                    e + 1
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {(data?.totalPages || 0) > page && (
+            <button
+              onClick={() => {
+                setPage(page + 1);
+              }}
+              className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+            >
+              Next
+            </button>
+          )}
+        </div>
+      )}
     </TitleCard>
   );
 };

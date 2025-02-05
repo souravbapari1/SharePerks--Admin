@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { downloadExcel } from "@/helper/exceel";
 import { SiMicrosoftexcel } from "react-icons/si";
+import { BiLoader } from "react-icons/bi";
 
 const PayoutList = ({
   defaultStatus = "all",
@@ -23,7 +24,13 @@ const PayoutList = ({
   const [loading, setLoading] = useState(true);
   const [loadingTask, setLoadingTask] = useState(false);
 
-  const [data, setData] = useState<PayoutData[]>([]);
+  const [data, setData] = useState<{
+    payouts: PayoutData[];
+    currentPage: number;
+    totalPages: number;
+    totalPayouts: number;
+  }>();
+  const [page, setPage] = useState(1);
 
   const updatePayout = async (
     id: string,
@@ -64,13 +71,18 @@ const PayoutList = ({
 
   useEffect(() => {
     loadBy();
-  }, [status]);
+  }, [status, page]);
 
   const loadPayoutsFilter = async () => {
     try {
       const usesData = await client
-        .get("api/v1/payout/all/filter/" + status)
-        .send<PayoutData[]>(AdminAuthToken());
+        .get(`api/v1/payout/all/filter/${status}/${page}/6`)
+        .send<{
+          payouts: PayoutData[];
+          currentPage: number;
+          totalPages: number;
+          totalPayouts: number;
+        }>(AdminAuthToken());
       setData(usesData);
       console.log(usesData);
       setLoading(false);
@@ -82,9 +94,12 @@ const PayoutList = ({
 
   const getAllPayoutsRequest = async () => {
     try {
-      const res = await client
-        .get("api/v1/payout/all")
-        .send<PayoutData[]>(AdminAuthToken());
+      const res = await client.get(`api/v1/payout/all/${page}/6`).send<{
+        payouts: PayoutData[];
+        currentPage: number;
+        totalPages: number;
+        totalPayouts: number;
+      }>(AdminAuthToken());
       setData(res);
       setLoading(false);
     } catch (error) {
@@ -115,7 +130,10 @@ const PayoutList = ({
           <p>Filter By:</p>
           <select
             className="h-8 px-2 rounded-lg text-sm border bg-transparent border-gray dark:border-white/20"
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setStatus(e.target.value);
+            }}
             value={status}
           >
             <option value="all">All Requests</option>
@@ -127,7 +145,7 @@ const PayoutList = ({
 
           <div
             onClick={() => {
-              downloadExcel(data, "payout-shareperks");
+              downloadExcel(data?.payouts || [], "payout-shareperks");
             }}
             className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
           >
@@ -155,10 +173,10 @@ const PayoutList = ({
             </tr>
           </thead>
           <tbody>
-            {data.length == 0 ? (
+            {data?.payouts?.length == 0 ? (
               <div className=" p-10">No Requests Found</div>
             ) : null}
-            {data.map((e) => (
+            {data?.payouts?.map((e) => (
               <tr key={e._id}>
                 <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <p className="text-xs">Date: {formatDate(e.createdAt)}</p>
@@ -217,6 +235,58 @@ const PayoutList = ({
             ))}
           </tbody>
         </table>
+
+        {data?.totalPages != 1 && (
+          <div className="flex justify-center items-center gap-2">
+            {page != 1 && (
+              <button
+                onClick={() => {
+                  setPage(page - 1);
+                }}
+                className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+              >
+                Prev
+              </button>
+            )}
+            <ul className="flex justify-center items-center gap-4 py-4">
+              {Array.from(Array(data?.totalPages).keys()).map((e) => {
+                return (
+                  <li
+                    key={e}
+                    onClick={() => {
+                      setPage(e + 1);
+                    }}
+                    className={`${
+                      page == e + 1 ? "bg-blue-600 text-white " : ""
+                    } text-sm rounded-lg px-4 py-2 cursor-pointer`}
+                  >
+                    {page == e + 1 ? (
+                      <>
+                        {loading ? (
+                          <BiLoader className="animate-spin" size={14} />
+                        ) : (
+                          e + 1
+                        )}
+                      </>
+                    ) : (
+                      e + 1
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {(data?.totalPages || 0) > page && (
+              <button
+                onClick={() => {
+                  setPage(page + 1);
+                }}
+                className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+              >
+                Next
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </TitleCard>
   );

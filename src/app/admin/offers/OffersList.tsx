@@ -7,16 +7,26 @@ import { OfferData } from "@/interface/offers";
 import { AdminAuthToken, client } from "@/lib/request/actions";
 import { downloadExcel } from "@/helper/exceel";
 import { SiMicrosoftexcel } from "react-icons/si";
+import { BiLoader } from "react-icons/bi";
 
 function OffersList() {
-  const [data, setdata] = useState<OfferData[]>([]);
+  const [data, setdata] = useState<{
+    offers: OfferData[];
+    currentPage: number;
+    totalPages: number;
+    totalOffers: number;
+  }>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState(1);
   const loadOffers = async () => {
     try {
       setLoading(true);
-      const request = await client
-        .get("/api/v1/offers/all")
-        .send<OfferData[]>(AdminAuthToken());
+      const request = await client.get(`/api/v1/offers/all/${page}/6`).send<{
+        offers: OfferData[];
+        currentPage: number;
+        totalPages: number;
+        totalOffers: number;
+      }>(AdminAuthToken());
       setdata(request);
       setLoading(false);
     } catch (error) {
@@ -27,7 +37,7 @@ function OffersList() {
 
   useEffect(() => {
     loadOffers();
-  }, []);
+  }, [page]);
 
   return (
     <TitleCard
@@ -35,7 +45,7 @@ function OffersList() {
       action={
         <div
           onClick={() => {
-            downloadExcel(data, "offers-shareperks");
+            downloadExcel(data?.offers || [], "offers-shareperks");
           }}
           className="bg-green-800  text-white cursor-pointer py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
         >
@@ -76,10 +86,61 @@ function OffersList() {
             </h5>
           </div>
         </div>
-        {data.map((e) => {
+        {data?.offers?.map((e) => {
           return <OffersItem key={e._id} data={e} reload={loadOffers} />;
         })}
       </div>
+      {data?.totalPages != 1 && (
+        <div className="flex justify-center items-center gap-2">
+          {page != 1 && (
+            <button
+              onClick={() => {
+                setPage(page - 1);
+              }}
+              className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+            >
+              Prev
+            </button>
+          )}
+          <ul className="flex justify-center items-center gap-4 py-4">
+            {Array.from(Array(data?.totalPages).keys()).map((e) => {
+              return (
+                <li
+                  key={e}
+                  onClick={() => {
+                    setPage(e + 1);
+                  }}
+                  className={`${
+                    page == e + 1 ? "bg-blue-600 text-white " : ""
+                  } text-sm rounded-lg px-4 py-2 cursor-pointer`}
+                >
+                  {page == e + 1 ? (
+                    <>
+                      {loading ? (
+                        <BiLoader className="animate-spin" size={14} />
+                      ) : (
+                        e + 1
+                      )}
+                    </>
+                  ) : (
+                    e + 1
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {(data?.totalPages || 0) > page && (
+            <button
+              onClick={() => {
+                setPage(page + 1);
+              }}
+              className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+            >
+              Next
+            </button>
+          )}
+        </div>
+      )}
     </TitleCard>
   );
 }

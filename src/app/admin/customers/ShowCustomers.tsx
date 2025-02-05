@@ -6,24 +6,37 @@ import { downloadExcel } from "@/helper/exceel";
 import { UserProfileInfo } from "@/interface/user";
 import { formatDate } from "@/lib/formateTime";
 import { AdminAuthToken, client } from "@/lib/request/actions";
+import { toast } from "material-react-toastify";
 import { tree } from "next/dist/build/templates/app-page";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
+import { BiLoader } from "react-icons/bi";
 import { SiMicrosoftexcel } from "react-icons/si";
+import { useMutation } from "react-query";
 
 const ShowCustomers = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setdata] = useState<UserProfileInfo[]>([]);
+  const [page, setPage] = useState(1);
+  const [data, setdata] = useState<{
+    users: UserProfileInfo[];
+    currentPage: string;
+    totalPages: number;
+    totalUsers: number;
+  }>();
+  const [search, setSearch] = useState("");
   const loadUsers = async () => {
     try {
       const usesData = await client
-        .get("api/v1/user/all")
-        .send<UserProfileInfo[]>(AdminAuthToken());
+        .get(`api/v1/user/pagination/${page}/6`)
+        .send<{
+          users: UserProfileInfo[];
+          currentPage: string;
+          totalPages: number;
+          totalUsers: number;
+        }>(AdminAuthToken());
       setdata(usesData);
-      console.log(usesData);
-
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -31,9 +44,44 @@ const ShowCustomers = () => {
     }
   };
 
+  const searchMutate = useMutation({
+    mutationFn: async (search: string) => {
+      return await client
+        .get("api/v1/user/search/" + search)
+        .send<UserProfileInfo[]>(AdminAuthToken());
+    },
+    onSuccess: (data) => {
+      setdata({
+        currentPage: 1,
+        totalPages: 1,
+        totalUsers: 1,
+        users: data,
+      } as any);
+    },
+    onError: (error) => {
+      toast.error("Error: " + error);
+      console.log(error);
+    },
+  });
+
   useEffect(() => {
     loadUsers();
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (search.length > 0) {
+        searchMutate.mutate(search);
+      } else {
+        if (page != 1) {
+          setPage(1);
+        } else {
+          loadUsers();
+        }
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   if (loading) {
     return <Loader />;
@@ -43,13 +91,24 @@ const ShowCustomers = () => {
     <TitleCard
       title="All Customers"
       action={
-        <div
-          onClick={() => {
-            downloadExcel(data, "users-shareperks");
-          }}
-          className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
-        >
-          <SiMicrosoftexcel /> Export
+        <div className="flex gap-4">
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            className="w-full rounded-lg border border-stroke bg-gray-2 dark:bg-meta-4 p-2.5 text-sm"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <div
+            onClick={() => {
+              downloadExcel(data?.users || [], "users-shareperks");
+            }}
+            className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
+          >
+            <SiMicrosoftexcel /> Export
+          </div>
         </div>
       }
     >
@@ -82,7 +141,7 @@ const ShowCustomers = () => {
           </div>
         </div>
 
-        {data.map((e) => {
+        {data?.users?.map((e) => {
           return (
             <div
               key={e._id}
@@ -93,7 +152,7 @@ const ShowCustomers = () => {
                   <Image
                     src={`${client.baseUrl}/${e.image}`}
                     alt="Brand"
-                    className="w-full h-full object-cover rounded-full"
+                    className="w-11 h-11 object-cover rounded-full"
                     width={48}
                     height={48}
                   />
@@ -128,6 +187,57 @@ const ShowCustomers = () => {
         })}
         <br />
       </div>
+      {search.length == 0 && (
+        <div className="flex justify-center items-center gap-2">
+          {page != 1 && (
+            <button
+              onClick={() => {
+                setPage(page - 1);
+              }}
+              className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+            >
+              Prev
+            </button>
+          )}
+          <ul className="flex justify-center items-center gap-4 py-4">
+            {Array.from(Array(data?.totalPages).keys()).map((e) => {
+              return (
+                <li
+                  key={e}
+                  onClick={() => {
+                    setPage(e + 1);
+                  }}
+                  className={`${
+                    page == e + 1 ? "bg-blue-600 text-white " : ""
+                  } text-sm rounded-lg px-4 py-2 cursor-pointer`}
+                >
+                  {page == e + 1 ? (
+                    <>
+                      {searchMutate.isLoading ? (
+                        <BiLoader className="animate-spin" size={14} />
+                      ) : (
+                        e + 1
+                      )}
+                    </>
+                  ) : (
+                    e + 1
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {(data?.totalPages || 0) > page && (
+            <button
+              onClick={() => {
+                setPage(page + 1);
+              }}
+              className="bg-gray-2 dark:bg-meta-4 text-sm rounded-lg px-4 py-2"
+            >
+              Next
+            </button>
+          )}
+        </div>
+      )}
     </TitleCard>
   );
 };
