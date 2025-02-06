@@ -1,3 +1,15 @@
+import { UserProfileInfo } from "@/interface/user";
+export interface OrderCouponsRoot {
+  metadata: Metadata;
+  data: OrderCoupons[];
+}
+
+export interface Metadata {
+  total: number;
+  totalPages: number;
+  currentPage: number;
+}
+
 export interface OrderCoupons {
   retryCount: number;
   _id: string;
@@ -14,6 +26,8 @@ export interface OrderCoupons {
   __v: number;
   refundNote: string;
   data?: Data;
+  userData: UserProfileInfo;
+  resolved: boolean;
 }
 
 export interface ErrorResponse {
