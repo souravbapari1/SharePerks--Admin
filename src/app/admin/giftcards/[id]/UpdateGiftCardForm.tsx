@@ -30,11 +30,16 @@ function UpdateGiftCardForm({
   const router = useRouter();
   // State management
   const [activeStatus, setActiveStatus] = useState(data.isEnable || false);
+  const [showOnBanner, setShowOnBanner] = useState(data.showOnBanner || false);
+  const [showOnHome, setShowOnHome] = useState(data.showOnHome || false);
 
   const [description, setDescription] = useState(data.data.Descriptions || "");
   const [termsAndConditions, setTermsAndConditions] = useState(
     data.data.tnc || ""
   );
+
+  const [redeemSteps, setRedeemSteps] = useState(data.redeemSteps || "");
+
   const [bannerImage, setBannerImage] = useState<File | null>(null);
   const [brokerProvider, setBrokerProvider] = useState(
     stocks.find((e) => e.value == data.stockISIN.toString()) || {
@@ -122,11 +127,13 @@ function UpdateGiftCardForm({
         stockISIN: brokerProvider.value,
         description: description,
         taq: termsAndConditions,
-        redeemSteps: data.data.redeemSteps,
+        redeemSteps: redeemSteps,
         OnlineRedemptionUrl: data.data.OnlineRedemptionUrl,
         inStockPercent: payUserHaveHolding,
         withoutStockPercent: payUserNoHolding,
         data: JSON.stringify(data.data),
+        showOnBanner: showOnBanner,
+        showOnHome: showOnHome,
       });
       if (bannerImage) {
         saveTaskQuery.append("file", bannerImage!);
@@ -164,12 +171,32 @@ function UpdateGiftCardForm({
           }
         >
           <div className="p-5">
-            <div className="flex justify-start items-center gap-5">
-              <p>Active Status: </p>
-              <Switcher
-                enabled={activeStatus}
-                setEnabled={handleActiveStatusChange}
-              />
+            <div className="flex justify-start gap-8 items-center">
+              <div className="flex justify-start items-center flex-col gap-5">
+                <p>Active Status</p>
+                <Switcher
+                  enabled={activeStatus}
+                  setEnabled={handleActiveStatusChange}
+                />
+              </div>
+              <div className="flex justify-start items-center flex-col gap-5">
+                <p>Show On Slider </p>
+                <Switcher
+                  enabled={showOnBanner}
+                  setEnabled={() => {
+                    setShowOnBanner(!showOnBanner);
+                  }}
+                />
+              </div>
+              <div className="flex justify-start items-center flex-col gap-5">
+                <p>Show On Feed </p>
+                <Switcher
+                  enabled={showOnHome}
+                  setEnabled={() => {
+                    setShowOnHome(!showOnHome);
+                  }}
+                />
+              </div>
             </div>
             <br />
             <div className="flex gap-5">
@@ -202,7 +229,6 @@ function UpdateGiftCardForm({
               onChange={handleDescriptionChange}
               label="Description"
             />
-            <br />
           </div>
         </TitleCard>
       </div>
@@ -245,6 +271,16 @@ function UpdateGiftCardForm({
               onChange={handlePayUserNoHoldingChange}
             />
           </div>
+        </TitleCard>
+      </div>
+      <div className="col-span-2">
+        <TitleCard title="Redeem Steps">
+          <TextEditor
+            content={redeemSteps}
+            onChange={(e) => {
+              setRedeemSteps(e);
+            }}
+          />
         </TitleCard>
       </div>
     </div>

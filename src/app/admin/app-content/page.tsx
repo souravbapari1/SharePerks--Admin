@@ -21,10 +21,19 @@ async function AppContent() {
     .get("/api/v1/appcontent/" + pageData.howtoredeem)
     .send<AppContentData>();
 
+  const faq = await client
+    .get("/api/v1/appcontent/" + pageData.faq)
+    .send<AppContentData>();
+
   return (
     <WorkSpace menuGroups={menuGroups}>
       <Breadcrumb pageName="App Content" />
-      <AppContentForm htr={htr} privacyPolicy={privacyPolicy} taq={taq} />
+      <AppContentForm
+        htr={htr}
+        privacyPolicy={privacyPolicy}
+        taq={taq}
+        faq={faq}
+      />
     </WorkSpace>
   );
 }

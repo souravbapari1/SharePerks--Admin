@@ -14,14 +14,10 @@ const Checkbox = (
   const { isChecked = false, setIsChecked } = props;
   return (
     <div>
-      <label
-        htmlFor="checkboxLabelTwo"
-        className="flex cursor-pointer select-none items-center"
-      >
+      <label className="flex cursor-pointer select-none items-center">
         <div className="relative">
           <input
             type="checkbox"
-            id="checkboxLabelTwo"
             className="sr-only"
             onChange={() => {
               if (setIsChecked) {

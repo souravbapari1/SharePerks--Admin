@@ -1,6 +1,6 @@
 import { SideBarDataSet } from "@/components/WorkSpace/SideBar/Sidebar";
 import { BiNotification, BiSolidOffer } from "react-icons/bi";
-import { FaUser } from "react-icons/fa";
+import { FaPercent, FaUser } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiBanknotes } from "react-icons/hi2";
 import { ImStack } from "react-icons/im";
@@ -13,8 +13,13 @@ import {
   MdMarkEmailUnread,
 } from "react-icons/md";
 import { PiPiggyBankBold } from "react-icons/pi";
-import { RiAdminFill } from "react-icons/ri";
-import { TbBrandSketch, TbGiftCard, TbGiftCardFilled } from "react-icons/tb";
+import { RiAdminFill, RiCodeBlock } from "react-icons/ri";
+import {
+  TbBrandSketch,
+  TbGiftCard,
+  TbGiftCardFilled,
+  TbUserCode,
+} from "react-icons/tb";
 
 export const permissionList = [
   { text: "Manage Customers", value: "manage_customers" },
@@ -28,6 +33,7 @@ export const permissionList = [
   { text: "Manage Admin", value: "manage_admin" },
   { text: "Cuelinks Campaign", value: "cuelinks_campaign" },
   { text: "Manage Push Notification", value: "manage_push_notification" },
+  { text: "Manage Rewords", value: "manage_rewords" },
 ] as const;
 
 export type PermissionValue = (typeof permissionList)[number]["value"];
@@ -100,6 +106,11 @@ export const menuGroups: SideBarDataSet[] = [
         ],
       },
       {
+        icon: <TbUserCode size={20} />,
+        label: "User Activity",
+        route: "/admin/soon/28",
+      },
+      {
         icon: <PiPiggyBankBold size={20} />,
         label: "Commissions",
         route: "/admin/commissions",
@@ -163,6 +174,12 @@ export const menuGroups: SideBarDataSet[] = [
     name: "Others",
     menuItems: [
       {
+        icon: <FaPercent size={20} />,
+        label: "Manage Rewards",
+        route: "/admin/manage-rewards",
+        key: "manage_rewords",
+      },
+      {
         icon: <MdCampaign size={20} />,
         label: "Cuelinks Campaign",
         route: "/admin/cuelinks",
@@ -189,8 +206,13 @@ export const menuGroups: SideBarDataSet[] = [
         ],
       },
       {
+        icon: <RiCodeBlock size={20} />,
+        label: "Gift Card Orders",
+        route: "#",
+      },
+      {
         icon: <TbGiftCardFilled size={20} />,
-        label: "Coupons Errors",
+        label: "Gift Card Errors",
         route: "/admin/giftcards/failed",
         key: "errors_coupones",
       },

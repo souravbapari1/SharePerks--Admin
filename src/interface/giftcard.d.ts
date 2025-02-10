@@ -18,6 +18,8 @@ export interface GiftCardData {
   updatedAt: string;
   __v: number;
   brand: Brand;
+  showOnBanner?: boolean;
+  showOnHome?: boolean;
 }
 
 export interface Data {

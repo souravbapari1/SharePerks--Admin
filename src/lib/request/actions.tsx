@@ -5,3 +5,5 @@ export const client = new NextClient("https://api.shareperks.in");
 export function AdminAuthToken() {
   return { Authorization: "Bearer " + localStorage.getItem("token") || "" };
 }
+
+export const workerClient = new NextClient("https://worker.shareperks.in");

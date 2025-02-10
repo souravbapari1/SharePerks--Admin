@@ -1,10 +1,9 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import TitleCard from "@/components/cards/TitleCard";
+import Checkbox from "@/components/Inputs/CheckBox";
 import FileInput from "@/components/Inputs/FilesInput";
 import Input from "@/components/Inputs/Input";
-import Select from "@/components/Inputs/Select";
-import Switcher from "@/components/Inputs/Switcher";
 import TextArea from "@/components/Inputs/TextArea";
 import { SelectBrokerInput } from "@/components/models/SearchBroker";
 import { BrandData } from "@/interface/brand";
@@ -13,6 +12,7 @@ import { AdminAuthToken, client } from "@/lib/request/actions";
 import { toast } from "material-react-toastify";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 const TextEditor = dynamic(() => import("@/components/Inputs/TextEditor"), {
@@ -25,7 +25,12 @@ function NewForm({
   product: WhoowProduct;
   brands: BrandData[];
 }) {
+  const router = useRouter();
   const [isEnable, setIsEnable] = useState(false);
+  const [showOnBanner, setShowOnBanner] = useState(false);
+  const [showOnHome, setShowOnHome] = useState(false);
+  const [redeemSteps, setRedeemSteps] = useState("");
+
   const [description, setDescription] = React.useState("");
   const [content, setContent] = React.useState("");
   const [bannerImage, setBannerImage] = React.useState<File | null>(null);
@@ -153,12 +158,16 @@ function NewForm({
             stockISIN: brokerProvider?.value,
             data: JSON.stringify(product),
             taq: content,
+            showOnBanner,
+            showOnHome,
+            redeemSteps,
           })
           .append("file", bannerImage!)
           .send(AdminAuthToken());
 
         toast.success("GiftCard Created Successfully");
         resetAll();
+        router.back();
       } catch (error) {
         toast.error("Something went wrong");
       }
@@ -184,9 +193,34 @@ function NewForm({
             }
           >
             <div className="p-5">
-              <div className="flex justify-start items-center gap-4">
-                <p>Active Status:</p>
-                <Switcher enabled={isEnable} setEnabled={setIsEnable} />
+              <div className="flex justify-start items-center gap-5">
+                <div className="flex justify-start items-center gap-4">
+                  <p>Active Status:</p>
+                  <Checkbox
+                    isChecked={isEnable}
+                    onClick={() => {
+                      setIsEnable(!isEnable);
+                    }}
+                  />
+                </div>
+                <div className="flex justify-start items-center gap-4">
+                  <p>Show On Slider:</p>
+                  <Checkbox
+                    isChecked={showOnBanner}
+                    onClick={() => {
+                      setShowOnBanner(!showOnBanner);
+                    }}
+                  />
+                </div>
+                <div className="flex justify-start items-center gap-4">
+                  <p>Show On Feed:</p>
+                  <Checkbox
+                    isChecked={showOnHome}
+                    onClick={() => {
+                      setShowOnHome(!showOnHome);
+                    }}
+                  />
+                </div>
               </div>
               <br />
               <div className="flex gap-5">
@@ -302,6 +336,19 @@ function NewForm({
                 );
               })}
             </div>
+          </TitleCard>
+        </div>
+
+        {/* // Redeem Steps */}
+
+        <div className="col-span-2">
+          <TitleCard title="Redeem Steps">
+            <TextEditor
+              content={redeemSteps}
+              onChange={(e) => {
+                setRedeemSteps(e);
+              }}
+            />
           </TitleCard>
         </div>
       </div>

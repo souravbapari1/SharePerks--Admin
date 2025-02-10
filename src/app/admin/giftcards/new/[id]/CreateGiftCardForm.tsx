@@ -28,10 +28,14 @@ function CreateGiftCardForm({
   const router = useRouter();
   // State management
   const [activeStatus, setActiveStatus] = useState(false);
+  const [showOnBanner, setShowOnBanner] = useState(false);
+  const [showOnHome, setShowOnHome] = useState(false);
+
   const [description, setDescription] = useState(data.data.Descriptions || "");
   const [termsAndConditions, setTermsAndConditions] = useState(
     data.data.tnc || ""
   );
+  const [redeemSteps, setRedeemSteps] = useState("");
   const [bannerImage, setBannerImage] = useState<File | null>(null);
   const [brokerProvider, setBrokerProvider] = useState({
     label: "",
@@ -127,11 +131,13 @@ function CreateGiftCardForm({
           stockISIN: brokerProvider.value,
           description: description,
           taq: termsAndConditions,
-          redeemSteps: data.data.redeemSteps,
+          redeemSteps: redeemSteps,
           OnlineRedemptionUrl: data.data.OnlineRedemptionUrl,
           inStockPercent: payUserHaveHolding,
           withoutStockPercent: payUserNoHolding,
           data: JSON.stringify(data.data),
+          showOnBanner: showOnBanner,
+          showOnHome: showOnHome,
         })
         .append("file", bannerImage!)
         .send(AdminAuthToken());
@@ -168,15 +174,34 @@ function CreateGiftCardForm({
           }
         >
           <div className="p-5">
-            <div className="flex justify-start items-center gap-5">
-              <p>Active Status: </p>
-              <Switcher
-                enabled={activeStatus}
-                setEnabled={handleActiveStatusChange}
-              />
+            <div className="flex justify-start gap-8 items-center">
+              <div className="flex justify-start items-center flex-col gap-5">
+                <p>Active Status</p>
+                <Switcher
+                  enabled={activeStatus}
+                  setEnabled={handleActiveStatusChange}
+                />
+              </div>
+              <div className="flex justify-start items-center flex-col gap-5">
+                <p>Show On Slider </p>
+                <Switcher
+                  enabled={showOnBanner}
+                  setEnabled={() => {
+                    setShowOnBanner(!showOnBanner);
+                  }}
+                />
+              </div>
+              <div className="flex justify-start items-center flex-col gap-5">
+                <p>Show On Feed </p>
+                <Switcher
+                  enabled={showOnHome}
+                  setEnabled={() => {
+                    setShowOnHome(!showOnHome);
+                  }}
+                />
+              </div>
             </div>
             <br />
-
             <div className="flex gap-5">
               <div className="">
                 <p>Preview Image</p>
@@ -199,15 +224,12 @@ function CreateGiftCardForm({
                 </p>
               </div>
             </div>
-
             <br />
-
             <TextArea
               value={description}
               onChange={handleDescriptionChange}
               label="Description"
             />
-            <br />
           </div>
         </TitleCard>
       </div>
@@ -250,6 +272,17 @@ function CreateGiftCardForm({
               onChange={handlePayUserNoHoldingChange}
             />
           </div>
+        </TitleCard>
+      </div>
+
+      <div className="col-span-2">
+        <TitleCard title="Redeem Steps">
+          <TextEditor
+            content={redeemSteps}
+            onChange={(e) => {
+              setRedeemSteps(e);
+            }}
+          />
         </TitleCard>
       </div>
     </div>

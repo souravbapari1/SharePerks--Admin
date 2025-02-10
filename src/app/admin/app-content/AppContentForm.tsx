@@ -13,14 +13,18 @@ function AppContentForm({
   htr,
   privacyPolicy,
   taq,
+  faq,
 }: {
   privacyPolicy: AppContentData;
   taq: AppContentData;
   htr: AppContentData;
+  faq: AppContentData;
 }) {
   const [privacy, setPrivacy] = useState<string>(privacyPolicy.data || "");
   const [utaq, setUtaq] = useState<string>(taq.data || "");
   const [uhtr, setUhtr] = useState<string>(htr.data || "");
+  const [ufaq, setFaq] = useState<string>(faq.data || "");
+
   const [loading, setLoading] = useState(false);
   const updateData = async (id: string, data: string) => {
     if (loading) {
@@ -99,6 +103,25 @@ function AppContentForm({
         }
       >
         <TextEditor content={uhtr} onChange={setUhtr} />
+      </TitleCard>
+      <br />
+      <TitleCard
+        title="Faq"
+        action={
+          <div
+            onClick={() => {
+              updateData(pageData.faq, ufaq);
+            }}
+            className={cn(
+              "bg-green-800 cursor-pointer  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4",
+              loading && "opacity-10"
+            )}
+          >
+            Save
+          </div>
+        }
+      >
+        <TextEditor content={ufaq} onChange={setFaq} />
       </TitleCard>
     </div>
   );

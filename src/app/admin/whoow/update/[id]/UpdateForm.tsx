@@ -32,10 +32,16 @@ function UpdateForm({
   brands: BrandData[];
 }) {
   const [isEnable, setIsEnable] = useState(product.isEnable);
+  const [showOnBanner, setShowOnBanner] = useState(
+    product.showOnBanner || false
+  );
+  const [showOnHome, setShowOnHome] = useState(product.showOnHome || false);
 
   const [description, setDescription] = React.useState(product.description);
   const [content, setContent] = React.useState(product.taq || "");
   const [bannerImage, setBannerImage] = React.useState<File | null>(null);
+  const [redeemSteps, setRedeemSteps] = useState(product.redeemSteps || "");
+
   const [brokerProvider, setBrokerProvider] = React.useState<
     | {
         label: string;
@@ -143,12 +149,14 @@ function UpdateForm({
       try {
         const res = client.patch("/api/v1/whoow/" + product._id).form({
           isEnable: isEnable,
-
           description: description,
           pricing: JSON.stringify(pricing),
           stockISIN: brokerProvider?.value,
           data: JSON.stringify(product.data),
           taq: content,
+          showOnBanner,
+          showOnHome,
+          redeemSteps,
         });
 
         if (bannerImage) {
@@ -180,14 +188,34 @@ function UpdateForm({
             }
           >
             <div className="p-5">
-              <div className="flex justify-start items-center gap-4">
-                <p>Active Status:</p>
-                <Checkbox
-                  isChecked={isEnable}
-                  onClick={() => {
-                    setIsEnable(!isEnable);
-                  }}
-                />
+              <div className="flex justify-start items-center gap-5">
+                <div className="flex justify-start items-center gap-4">
+                  <p>Active Status:</p>
+                  <Checkbox
+                    isChecked={isEnable}
+                    onClick={() => {
+                      setIsEnable(!isEnable);
+                    }}
+                  />
+                </div>
+                <div className="flex justify-start items-center gap-4">
+                  <p>Show On Slider:</p>
+                  <Checkbox
+                    isChecked={showOnBanner}
+                    onClick={() => {
+                      setShowOnBanner(!showOnBanner);
+                    }}
+                  />
+                </div>
+                <div className="flex justify-start items-center gap-4">
+                  <p>Show On Feed:</p>
+                  <Checkbox
+                    isChecked={showOnHome}
+                    onClick={() => {
+                      setShowOnHome(!showOnHome);
+                    }}
+                  />
+                </div>
               </div>
               <br />
               <div className="flex gap-5">
@@ -303,6 +331,18 @@ function UpdateForm({
                 );
               })}
             </div>
+          </TitleCard>
+        </div>
+
+        {/* // Redeem Steps */}
+        <div className="col-span-2">
+          <TitleCard title="Redeem Steps">
+            <TextEditor
+              content={redeemSteps}
+              onChange={(e) => {
+                setRedeemSteps(e);
+              }}
+            />
           </TitleCard>
         </div>
       </div>

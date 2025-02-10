@@ -6,10 +6,12 @@ import Input from "@/components/Inputs/Input";
 import TextArea from "@/components/Inputs/TextArea";
 import WorkSpace from "@/components/WorkSpace/WorkSpace";
 import { menuGroups } from "@/data/sidebardata";
-import { client } from "@/lib/request/actions";
+import { client, workerClient } from "@/lib/request/actions";
 import React, { useState, ChangeEvent } from "react";
 import { useMutation } from "react-query";
 import Swal from "sweetalert2";
+import SelectUsersList from "./SelectUsersList";
+import { UserProfileInfo } from "@/interface/user";
 
 // Type definitions for error messages
 interface Errors {
@@ -21,16 +23,23 @@ function Page() {
   // State management for Title, Body, and Image
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<string | null>(null);
   const [errors, setErrors] = useState<Errors>({ title: "", body: "" });
+  const [users, setUsers] = useState<UserProfileInfo[]>([]);
 
   const pushNotificationData = useMutation({
     mutationKey: ["push_notification"],
-    mutationFn: async (data: any) => {
-      const query = client.post("/api/v1/notify").form(data);
-      if (image) {
-        query.append("image", image);
-      }
+    mutationFn: async (data: {
+      title: string;
+      message: string;
+      users: string[];
+      image: string | null;
+    }) => {
+      // const query = client.post("/api/v1/notify").form(data);
+      // if (image) {
+      //   query.append("image", image);
+      // }
+      const query = workerClient.post("/onesignal/push/bulk").json(data);
       return await query.send();
     },
     onSuccess: () => {
@@ -71,8 +80,8 @@ function Page() {
 
   // Handle file input for image
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImage(e.target.files[0]);
+    if (e.target.value) {
+      setImage(e.target.value);
     }
   };
 
@@ -104,58 +113,63 @@ function Page() {
       console.log("Sending Notification...");
       pushNotificationData.mutate({
         title,
-        body,
-        image,
+        message: body,
+        image: image,
+        users: users.map((e) => e._id),
       });
     }
   };
 
   return (
     <WorkSpace menuGroups={menuGroups}>
-      <TitleCard title="Push Notification">
-        <div className="p-8">
-          <div className="flex flex-col gap-6">
-            <div className="">
-              <label>Title</label>
-              <Input
-                placeholder="Enter Title"
-                type="text"
-                value={title} // Binding the input value to state
-                onChange={handleTitleChange} // Updating the state on change
-              />
-              {errors.title && (
-                <p className="text-red text-sm">{errors.title}</p>
-              )}
+      <div className="grid grid-cols-2 gap-5">
+        <TitleCard title="Push Notification">
+          <div className="p-8">
+            <div className="flex flex-col gap-6">
+              <div className="">
+                <label>Title</label>
+                <Input
+                  placeholder="Enter Title"
+                  type="text"
+                  value={title} // Binding the input value to state
+                  onChange={handleTitleChange} // Updating the state on change
+                />
+                {errors.title && (
+                  <p className="text-red text-sm">{errors.title}</p>
+                )}
+              </div>
+              <div className="">
+                <label>Body</label>
+                <TextArea
+                  placeholder="Enter Body"
+                  value={body} // Binding the textarea value to state
+                  onChange={handleBodyChange} // Updating the state on change
+                />
+                {errors.body && (
+                  <p className="text-red text-sm">{errors.body}</p>
+                )}
+              </div>
+              <div className="">
+                <label>Image</label>
+                <Input
+                  placeholder="Enter Image Url"
+                  onChange={handleImageChange} // Updating the state on file selection
+                />
+              </div>
             </div>
-            <div className="">
-              <label>Body</label>
-              <TextArea
-                placeholder="Enter Body"
-                value={body} // Binding the textarea value to state
-                onChange={handleBodyChange} // Updating the state on change
-              />
-              {errors.body && <p className="text-red text-sm">{errors.body}</p>}
-            </div>
-            <div className="">
-              <label>Image</label>
-              <FileInput
-                placeholder="Enter Image"
-                onChange={handleImageChange} // Updating the state on file selection
-              />
-            </div>
-          </div>
-          <br />
-          <br />
+            <br />
+            <br />
 
-          <Button
-            onClick={handleSubmit}
-            loading={pushNotificationData.isLoading}
-            disabled={pushNotificationData.isLoading}
-          >
-            Send Notification
-          </Button>
-        </div>
-      </TitleCard>
+            <Button
+              onClick={handleSubmit}
+              loading={pushNotificationData.isLoading}
+            >
+              Send Notification
+            </Button>
+          </div>
+        </TitleCard>
+        <SelectUsersList setUsers={setUsers} users={users} />
+      </div>
     </WorkSpace>
   );
 }

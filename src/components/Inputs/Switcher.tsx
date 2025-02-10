@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 
 const Switcher = ({
   enabled = false,
@@ -10,14 +9,10 @@ const Switcher = ({
 }) => {
   return (
     <div>
-      <label
-        htmlFor="toggle1"
-        className="flex cursor-pointer select-none items-center"
-      >
+      <label className="flex cursor-pointer select-none items-center">
         <div className="relative">
           <input
             type="checkbox"
-            id="toggle1"
             className="sr-only"
             onChange={() => {
               if (setEnabled) {

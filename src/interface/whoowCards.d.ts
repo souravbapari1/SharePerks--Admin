@@ -13,6 +13,9 @@ export interface WhoowCard {
   __v: number;
   previewImage: string;
   brandName: string;
+  showOnBanner?: boolean;
+  showOnHome?: boolean;
+  redeemSteps?: string;
 }
 
 export interface Pricing {
