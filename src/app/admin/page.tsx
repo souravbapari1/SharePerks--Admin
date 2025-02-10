@@ -17,6 +17,7 @@ import TitleCard from "@/components/cards/TitleCard";
 import { DashBoard } from "@/interface/dashboard";
 import { AdminAuthToken, client } from "@/lib/request/actions";
 import Loader from "../loading";
+import { PiCardsBold } from "react-icons/pi";
 
 function page() {
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,11 @@ function page() {
     totalPayoutPending: 0,
     totalSell: 0,
     totalUsers: 0,
+    giftcards: {
+      gifter: 0,
+      whoow: 0,
+      sucessOrders: 0,
+    },
   });
   const loadData = async () => {
     try {
@@ -94,6 +100,21 @@ function page() {
           title="Total Clicks"
           total={data.totalClicks.toString()}
           icon={<GiClick />}
+        />
+        <CardDataStats
+          title="Whoow Gift Cards"
+          total={data.giftcards.whoow.toString()}
+          icon={<PiCardsBold />}
+        />
+        <CardDataStats
+          title="Gifter Gift Cards"
+          total={data.giftcards.gifter.toString()}
+          icon={<PiCardsBold />}
+        />
+        <CardDataStats
+          title="Total Gift Orders"
+          total={data.giftcards.sucessOrders.toString()}
+          icon={<PiCardsBold />}
         />
       </div>
       <br />

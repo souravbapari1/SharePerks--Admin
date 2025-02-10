@@ -15,4 +15,9 @@ export type DashBoard = {
     in: number;
     out: number;
   };
+  giftcards: {
+    gifter: number;
+    whoow: number;
+    sucessOrders: number;
+  };
 };
