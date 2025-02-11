@@ -3,6 +3,7 @@ export interface OfferData {
   aboutOffer: string;
   brandId: string;
   commissionRate: number;
+  commissionRateWithHolding: number;
   commissionType: string;
   expDate: string;
   bannerImage?: string;

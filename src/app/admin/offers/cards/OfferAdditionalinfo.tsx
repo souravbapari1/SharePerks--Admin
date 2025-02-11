@@ -28,7 +28,7 @@ function OfferAdditionalinfo({
         />
         <br />
         <br />
-        <div className="grid  grid-cols-2 gap-5">
+        <div className="grid  grid-cols-3 gap-5">
           <div className="">
             <Select
               label="Communion Type"
@@ -53,10 +53,20 @@ function OfferAdditionalinfo({
           </div>
           <div className="">
             <Input
-              label="Rate"
+              label="Reward WithOut Holding"
               type="number"
               value={state.commissionRate}
               onChange={(e) => setValue("commissionRate", e.target.value)}
+            />
+          </div>
+          <div className="">
+            <Input
+              label="Reward With Holding"
+              type="number"
+              value={state.commissionRateWithHolding}
+              onChange={(e) =>
+                setValue("commissionRateWithHolding", e.target.value)
+              }
             />
           </div>
         </div>

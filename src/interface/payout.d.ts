@@ -10,4 +10,5 @@ export interface PayoutData {
   updatedAt: string;
   __v: number;
   userData?: UserProfileInfo;
+  upi: string;
 }

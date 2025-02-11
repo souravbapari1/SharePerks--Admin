@@ -75,6 +75,47 @@ function BrandLinks({ categories }: { categories: CategoryData[] }) {
             onChange={(e) => setValue("stockISIN", e)}
           />
         </div>
+
+        <br />
+        <br />
+        <div className="grid  grid-cols-3 gap-5">
+          <div className="">
+            <Select
+              label="Communion Type"
+              className="uppercase"
+              value={state.commissionType}
+              onChange={(e) => setValue("commissionType", e.target.value)}
+              options={[
+                {
+                  label: "Percent",
+                  value: "PERCENT",
+                },
+                {
+                  label: "amount",
+                  value: "AMOUNT",
+                },
+              ]}
+            />
+          </div>
+          <div className="">
+            <Input
+              label="Reward WithOut Holding"
+              type="number"
+              value={state.commissionRate}
+              onChange={(e) => setValue("commissionRate", e.target.value)}
+            />
+          </div>
+          <div className="">
+            <Input
+              label="Reward With Holding"
+              type="number"
+              value={state.commissionRateWithHolding}
+              onChange={(e) =>
+                setValue("commissionRateWithHolding", e.target.value)
+              }
+            />
+          </div>
+        </div>
       </div>
     </TitleCard>
   );

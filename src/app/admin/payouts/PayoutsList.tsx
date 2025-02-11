@@ -162,7 +162,7 @@ const PayoutList = ({
                 User Name
               </th>
               <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
-                Bank Info
+                UPI ID
               </th>
               <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                 Status
@@ -192,13 +192,13 @@ const PayoutList = ({
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <p className="text-black dark:text-white text-sm">
-                    {e.bank.name}
-                    <br />
-                    <span className="font-bold">{e.bank.accountNumber}</span>
-                    <br />
+                    {e.upi || "N/A"}
+                    {/* <br /> */}
+                    {/* <span className="font-bold">{e.bank.accountNumber}</span> */}
+                    {/* <br />
                     <span className="text-xs font-medium text-slate-600">
                       {e.bank.ifscCode}
-                    </span>
+                    </span> */}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">

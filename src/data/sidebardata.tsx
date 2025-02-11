@@ -108,7 +108,7 @@ export const menuGroups: SideBarDataSet[] = [
       {
         icon: <TbUserCode size={20} />,
         label: "User Activity",
-        route: "/admin/soon/28",
+        route: "/admin/activity",
       },
       {
         icon: <PiPiggyBankBold size={20} />,
@@ -208,7 +208,7 @@ export const menuGroups: SideBarDataSet[] = [
       {
         icon: <RiCodeBlock size={20} />,
         label: "Gift Card Orders",
-        route: "#",
+        route: "/admin/giftcards/orders",
       },
       {
         icon: <TbGiftCardFilled size={20} />,

@@ -56,6 +56,9 @@ function UpdateBrandForm({
       offerTerms: state.offerTerms,
       provider: state.provider,
       stockISIN: state.stockISIN.value as any,
+      commissionRate: state.commissionRate,
+      commissionRateWithHolding: state.commissionRateWithHolding,
+      commissionType: state.commissionType,
     };
 
     const updateReq = client.put("/api/v1/brand/" + id).form(data);

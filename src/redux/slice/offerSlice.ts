@@ -9,6 +9,7 @@ const initialState: OfferData = {
   brandId: "",
   category: "",
   commissionRate: 0,
+  commissionRateWithHolding: 0,
   commissionType: "PERCENT",
   expDate: "",
   isEnable: true,
@@ -86,6 +87,11 @@ export const useOfferRedux = () => {
 
     if (state.commissionRate == 0) {
       toast.error("Please Enter  offer commission rate ");
+      return false;
+    }
+
+    if (state.commissionRateWithHolding == 0) {
+      toast.error("Please Enter  offer commission rate with holding ");
       return false;
     }
 

@@ -10,6 +10,11 @@ export interface BrandData {
   stockISIN: { label: string; value: string };
   offerTerms: string;
   cashBackRates: string;
+
+  commissionRate: number;
+  commissionRateWithHolding: number;
+  commissionType: "PERCENT" | "AMOUNT";
+
   aboutBrand: string;
   bannerImage?: any;
   brandImage?: any;

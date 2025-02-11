@@ -18,6 +18,9 @@ const initialState: BrandData = {
   cashBackRates: "",
   offerTerms: "",
   category: [],
+  commissionRate: 0,
+  commissionRateWithHolding: 0,
+  commissionType: "PERCENT",
 };
 
 // Create the manageBrand slice using Redux Toolkit
@@ -76,6 +79,20 @@ export const useManageBrand = () => {
       toast.error("Please Enter a Brand Link Button Text");
       return false;
     }
+    if (state.commissionRate == 0) {
+      toast.error("Please Enter  offer commission rate ");
+      return false;
+    }
+
+    if (state.commissionRateWithHolding == 0) {
+      toast.error("Please Enter  offer commission rate with holding ");
+      return false;
+    }
+
+    if (state.commissionType.trim().length == 0) {
+      toast.error("Please Enter  offer commission type ");
+      return false;
+    }
 
     // Validate aboutBrand
     if (state.aboutBrand.trim().length === 0) {
@@ -85,7 +102,7 @@ export const useManageBrand = () => {
 
     // Validate cashbackRates
     if (!state.cashBackRates) {
-      toast.error("Please Enter a Cashback Rate ");
+      toast.error("Please Enter a Cashback Rate Ifo");
       return false;
     }
 

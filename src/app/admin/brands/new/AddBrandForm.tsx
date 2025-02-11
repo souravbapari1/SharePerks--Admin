@@ -46,12 +46,15 @@ function AddBrandForm({
       toast.error("Select a Brand Image File");
       return false;
     }
-    alert(state.provider);
     const data: BrandData = {
       name: state.name,
       aboutBrand: state.aboutBrand,
       btnText: state.btnText,
       cashBackRates: state.cashBackRates,
+      commissionRate: 0,
+      commissionRateWithHolding: 0,
+      commissionType: "PERCENT",
+
       category: JSON.stringify(
         state.category.map(
           (e: { text: string; value: string }) => e.value as any
