@@ -33,12 +33,15 @@ function Page() {
       users: string[];
       image: string | null;
     }) => {
-      const req = await axios.post("http://worker.shareperks.in/notification", {
-        title: data.title,
-        body: data.body,
-        users: data.users,
-        image: data.image,
-      });
+      const req = await axios.post(
+        "https://worker.shareperks.in/notification",
+        {
+          title: data.title,
+          body: data.body,
+          users: data.users,
+          image: data.image,
+        }
+      );
 
       return req.data;
     },

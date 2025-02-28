@@ -16,7 +16,7 @@ function page() {
   const [content, setContent] = useState("");
   const mutate = useMutation({
     mutationFn: async () => {
-      const data = await axios.post("http://worker.shareperks.in/mail", {
+      const data = await axios.post("https://worker.shareperks.in/mail", {
         body: content,
         to: users.map((e) => e._id),
       });
