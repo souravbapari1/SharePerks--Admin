@@ -31,16 +31,24 @@ function Page() {
     mutationKey: ["push_notification"],
     mutationFn: async (data: {
       title: string;
-      message: string;
+      body: string;
       users: string[];
       image: string | null;
     }) => {
-      // const query = client.post("/api/v1/notify").form(data);
-      // if (image) {
-      //   query.append("image", image);
-      // }
-      const query = workerClient.post("/onesignal/push/bulk").json(data);
-      return await query.send();
+      const req = await fetch("http://worker.shareperks.in/notification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: data.title,
+          body: data.body,
+          users: data.users,
+          image: data.image,
+        }),
+      });
+      const res = await req.json();
+      return res;
     },
     onSuccess: () => {
       // Success message
@@ -61,7 +69,7 @@ function Page() {
       console.log(error);
       Swal.fire({
         title: "Error",
-        text: error.response.message || "Something went wrong",
+        text: error.message || "Something went wrong",
         icon: "error",
         confirmButtonText: "Ok",
       });
@@ -113,7 +121,7 @@ function Page() {
       console.log("Sending Notification...");
       pushNotificationData.mutate({
         title,
-        message: body,
+        body: body,
         image: image,
         users: users.map((e) => e._id),
       });
@@ -162,6 +170,7 @@ function Page() {
 
             <Button
               onClick={handleSubmit}
+              disabled={pushNotificationData.isLoading}
               loading={pushNotificationData.isLoading}
             >
               Send Notification

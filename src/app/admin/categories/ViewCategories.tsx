@@ -5,8 +5,9 @@ import { client } from "@/lib/request/actions";
 import { toast } from "material-react-toastify";
 import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
+import { FaFileExcel } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { SiMicrosoftexcel } from "react-icons/si";
+
 import Swal from "sweetalert2";
 
 function ViewCategories({
@@ -59,7 +60,7 @@ function ViewCategories({
         }}
         className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
       >
-        <SiMicrosoftexcel /> Export
+        <FaFileExcel /> Export
       </div>
 
       <div className="max-w-full overflow-x-auto">

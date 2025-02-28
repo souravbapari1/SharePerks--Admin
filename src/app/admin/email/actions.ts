@@ -2,23 +2,22 @@
 
 import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
+  host: "smtp-relay.brevo.com",
   port: 587,
   secure: false, // true for port 465, false for other ports
   auth: {
-    user: "maddison53@ethereal.email",
-    pass: "jn7jnAPss4f63QBp6D",
+    user: "8558d2002@smtp-brevo.com",
+    pass: "sdptb0nhN3q4Yfg1",
   },
 });
 
 export const sendEmail = async (content: string) => {
   const info = await transporter.sendMail({
-    from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-
+    from: "developers@shareperks.in", // sender address
+    to: "sourav0w@gmail.com", // list of receivers
+    subject: "SharePerks Alert", // Subject line
     html: content, // html body
   });
 
-  return true;
+  return info;
 };

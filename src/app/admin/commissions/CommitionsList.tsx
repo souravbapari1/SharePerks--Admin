@@ -4,7 +4,7 @@ import { downloadExcel } from "@/helper/exceel";
 import { CommotionData } from "@/interface/commition";
 import { formatDate } from "@/lib/formateTime";
 import Link from "next/link";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { FaFileExcel } from "react-icons/fa";
 
 const CommitionsList = ({
   title,
@@ -23,7 +23,7 @@ const CommitionsList = ({
           }}
           className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
         >
-          <SiMicrosoftexcel /> Export
+          <FaFileExcel /> Export
         </div>
       }
     >

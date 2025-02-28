@@ -16,7 +16,19 @@ function page() {
   const [content, setContent] = useState("");
   const mutate = useMutation({
     mutationFn: async () => {
-      return await sendEmail(content);
+      const req = await fetch("http://worker.shareperks.in/mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: users,
+          body: content,
+          users: users.map((e) => e._id),
+        }),
+      });
+      const res = await req.json();
+      return res;
     },
     onSuccess: () => {
       toast.success("Email Sent Successfully");

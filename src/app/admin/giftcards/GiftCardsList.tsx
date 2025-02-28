@@ -1,10 +1,9 @@
 "use client";
 import TitleCard from "@/components/cards/TitleCard";
-import { GiftCardData } from "@/interface/giftcard";
-import React from "react";
-import GiftCardItem from "./GiftCardItem";
 import { downloadExcel } from "@/helper/exceel";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { GiftCardData } from "@/interface/giftcard";
+import { FaFileExcel } from "react-icons/fa";
+import GiftCardItem from "./GiftCardItem";
 
 function GiftCardsList({ data }: { data: GiftCardData[] }) {
   return (
@@ -18,7 +17,7 @@ function GiftCardsList({ data }: { data: GiftCardData[] }) {
             }}
             className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
           >
-            <SiMicrosoftexcel /> Export
+            <FaFileExcel /> Export
           </div>
         }
       >

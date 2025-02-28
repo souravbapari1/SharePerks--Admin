@@ -10,8 +10,9 @@ import { toast } from "material-react-toastify";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { downloadExcel } from "@/helper/exceel";
-import { SiMicrosoftexcel } from "react-icons/si";
+
 import { BiLoader } from "react-icons/bi";
+import { BsFileExcel } from "react-icons/bs";
 
 const PayoutList = ({
   defaultStatus = "all",
@@ -149,7 +150,7 @@ const PayoutList = ({
             }}
             className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
           >
-            <SiMicrosoftexcel /> Export
+            <BsFileExcel /> Export
           </div>
         </div>
       }

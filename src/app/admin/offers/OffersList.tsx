@@ -1,13 +1,13 @@
 "use client";
 
 import TitleCard from "@/components/cards/TitleCard";
-import React, { useEffect, useState } from "react";
-import OffersItem from "./OffersItem";
+import { downloadExcel } from "@/helper/exceel";
 import { OfferData } from "@/interface/offers";
 import { AdminAuthToken, client } from "@/lib/request/actions";
-import { downloadExcel } from "@/helper/exceel";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { useEffect, useState } from "react";
 import { BiLoader } from "react-icons/bi";
+import { FaFileExcel } from "react-icons/fa";
+import OffersItem from "./OffersItem";
 
 function OffersList() {
   const [data, setdata] = useState<{
@@ -49,7 +49,7 @@ function OffersList() {
           }}
           className="bg-green-800  text-white cursor-pointer py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
         >
-          <SiMicrosoftexcel /> Export
+          <FaFileExcel /> Export
         </div>
       }
     >

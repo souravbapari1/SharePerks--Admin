@@ -8,10 +8,9 @@ import { client } from "@/lib/request/actions";
 import { toast } from "material-react-toastify";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
+import { FaFileExcel } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { SiMicrosoftexcel } from "react-icons/si";
 import { useMutation, useQuery } from "react-query";
 
 function GiftCardsList() {
@@ -62,7 +61,7 @@ function GiftCardsList() {
             }}
             className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
           >
-            <SiMicrosoftexcel /> Export
+            <FaFileExcel /> Export
           </div>
         }
       >

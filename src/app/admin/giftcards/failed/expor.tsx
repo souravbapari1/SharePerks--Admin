@@ -1,7 +1,6 @@
 "use client";
 import { downloadExcel } from "@/helper/exceel";
-import React from "react";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { FaFileExcel } from "react-icons/fa";
 
 function Export({ error }: { error: any }) {
   return (
@@ -11,7 +10,7 @@ function Export({ error }: { error: any }) {
       }}
       className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
     >
-      <SiMicrosoftexcel /> Export
+      <FaFileExcel /> Export
     </div>
   );
 }

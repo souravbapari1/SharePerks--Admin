@@ -14,8 +14,9 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import ListItem from "./ListItem";
 import { downloadExcel } from "@/helper/exceel";
-import { SiMicrosoftexcel } from "react-icons/si";
+
 import { BiLoader } from "react-icons/bi";
+import { FaFileExcel } from "react-icons/fa";
 
 const BrandsList = () => {
   const [loading, setLoading] = useState(true);
@@ -62,7 +63,7 @@ const BrandsList = () => {
           }}
           className="bg-green-800  text-white py-1 w-30 flex cursor-pointer justify-center items-center gap-2 rounded-lg text-sm px-4"
         >
-          <SiMicrosoftexcel /> Export
+          <FaFileExcel /> Export
         </div>
       }
     >

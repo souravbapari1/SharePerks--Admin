@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "flatpickr/dist/flatpickr.min.css";
 import "material-react-toastify/dist/ReactToastify.css";
-import "sweetalert2/src/sweetalert2.scss";
+import "sweetalert2/dist/sweetalert2.css";
 import "react-json-view-lite/dist/index.css";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";

@@ -13,7 +13,8 @@ import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { BiLoader } from "react-icons/bi";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { FaFileExcel } from "react-icons/fa";
+
 import { useMutation } from "react-query";
 
 const ShowCustomers = () => {
@@ -107,7 +108,7 @@ const ShowCustomers = () => {
             }}
             className="bg-green-800  text-white py-1 flex justify-center items-center gap-2 rounded-lg text-sm px-4"
           >
-            <SiMicrosoftexcel /> Export
+            <FaFileExcel /> Export
           </div>
         </div>
       }
