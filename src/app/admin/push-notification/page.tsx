@@ -1,18 +1,16 @@
 "use client";
 import Button from "@/components/buttons/Button";
 import TitleCard from "@/components/cards/TitleCard";
-import FileInput from "@/components/Inputs/FilesInput";
 import Input from "@/components/Inputs/Input";
 import TextArea from "@/components/Inputs/TextArea";
 import WorkSpace from "@/components/WorkSpace/WorkSpace";
 import { menuGroups } from "@/data/sidebardata";
-import { client, workerClient } from "@/lib/request/actions";
-import React, { useState, ChangeEvent } from "react";
+import { UserProfileInfo } from "@/interface/user";
+import { ChangeEvent, useState } from "react";
 import { useMutation } from "react-query";
 import Swal from "sweetalert2";
 import SelectUsersList from "./SelectUsersList";
-import { UserProfileInfo } from "@/interface/user";
-
+import axios from "axios";
 // Type definitions for error messages
 interface Errors {
   title: string;
@@ -35,20 +33,14 @@ function Page() {
       users: string[];
       image: string | null;
     }) => {
-      const req = await fetch("http://worker.shareperks.in/notification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: data.title,
-          body: data.body,
-          users: data.users,
-          image: data.image,
-        }),
+      const req = await axios.post("http://worker.shareperks.in/notification", {
+        title: data.title,
+        body: data.body,
+        users: data.users,
+        image: data.image,
       });
-      const res = await req.json();
-      return res;
+
+      return req.data;
     },
     onSuccess: () => {
       // Success message

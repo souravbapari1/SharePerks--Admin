@@ -4,31 +4,24 @@ import TitleCard from "@/components/cards/TitleCard";
 import TextEditor from "@/components/Inputs/TextEditor";
 import WorkSpace from "@/components/WorkSpace/WorkSpace";
 import { menuGroups } from "@/data/sidebardata";
-import React, { useState } from "react";
-import { useMutation } from "react-query";
-import { sendEmail } from "./actions";
-import { toast } from "material-react-toastify";
-import SelectUsersList from "../push-notification/SelectUsersList";
 import { UserProfileInfo } from "@/interface/user";
+import axios from "axios";
+import { toast } from "material-react-toastify";
+import { useState } from "react";
+import { useMutation } from "react-query";
+import SelectUsersList from "../push-notification/SelectUsersList";
 
 function page() {
   const [users, setUsers] = useState<UserProfileInfo[]>([]);
   const [content, setContent] = useState("");
   const mutate = useMutation({
     mutationFn: async () => {
-      const req = await fetch("http://worker.shareperks.in/mail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: users,
-          body: content,
-          users: users.map((e) => e._id),
-        }),
+      const data = await axios.post("http://worker.shareperks.in/mail", {
+        body: content,
+        to: users.map((e) => e._id),
       });
-      const res = await req.json();
-      return res;
+
+      return data.data;
     },
     onSuccess: () => {
       toast.success("Email Sent Successfully");
