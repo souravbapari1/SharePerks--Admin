@@ -41,7 +41,10 @@ const CommitionsList = ({
                 Status
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
-                Amount
+                CashBack
+              </th>
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
+                Order Amount
               </th>
             </tr>
           </thead>
@@ -61,7 +64,7 @@ const CommitionsList = ({
                   <p className="text-black dark:text-white text-sm">
                     <span className="font-extrabold"> {item.title}</span>
                     <br />
-                    <span className="text-xs font-medium text-slate-200">
+                    <span className="text-xs font-medium text-slate-400">
                       {item.subtitle}
                     </span>
                   </p>
@@ -72,6 +75,9 @@ const CommitionsList = ({
                   >
                     {item.status}
                   </p>
+                </td>
+                <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                  {item.payAmount.toFixed(2)}
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   {item.amount.toFixed(2)}

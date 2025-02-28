@@ -6,6 +6,7 @@ export interface CommotionData {
   subtitle: string;
   title: string;
   type: string;
+  payAmount: number;
   completePayment: boolean;
   user: string;
   brand: string;
