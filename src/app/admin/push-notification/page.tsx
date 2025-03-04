@@ -31,7 +31,7 @@ function Page() {
       title: string;
       body: string;
       users: string[];
-      image: string | null;
+      image: string | undefined;
     }) => {
       const req = await axios.post(
         "https://worker.shareperks.in/notification",
@@ -117,7 +117,7 @@ function Page() {
       pushNotificationData.mutate({
         title,
         body: body,
-        image: image,
+        image: image || undefined,
         users: users.map((e) => e._id),
       });
     }

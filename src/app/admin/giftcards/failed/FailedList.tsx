@@ -14,7 +14,7 @@ function FailedList() {
   const [search, setSearch] = useState("");
 
   const query = useQuery({
-    queryKey: [page, search, "failedCouponCodes"],
+    queryKey: ["failedCouponCodes", page, search],
     queryFn: async () => {
       return await client
         .get("/api/v1/giftcardorder/errors", {
