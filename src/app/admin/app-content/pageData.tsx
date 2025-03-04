@@ -3,4 +3,5 @@ export const pageData = {
   termsandconditions: "terms-and-conditions",
   howtoredeem: "how-to-redeem",
   faq: "faq",
+  refer: "refer",
 };

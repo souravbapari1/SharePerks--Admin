@@ -4,5 +4,5 @@ export interface AppContentData {
   __v?: number;
   createdAt?: string;
   updatedAt?: string;
-  data?: string;
+  data?: any;
 }
