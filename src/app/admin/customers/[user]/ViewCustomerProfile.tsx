@@ -162,12 +162,14 @@ function ViewCustomerProfile({ user }: { user: string }) {
           <br />
 
           <TitleCard title="Holdings">
-            <div className="p-3 bg-[#002b36]">
-              <JsonView
-                data={data?.holdings?.data || {}}
-                shouldExpandNode={collapseAllNested}
-                style={darkStyles}
-              />
+            <div className="p-3">
+              {data?.holdings?.data?.securities?.map((e: any) => {
+                return (
+                  <p className="mb-2 bg-gray p-3 rounded-md" key={e.isin}>
+                    {e.name}
+                  </p>
+                );
+              })}
             </div>
           </TitleCard>
           <br />
