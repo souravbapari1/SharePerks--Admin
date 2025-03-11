@@ -12,6 +12,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { JsonView, darkStyles, collapseAllNested } from "react-json-view-lite";
 import { CommotionData } from "@/interface/commition";
+import Switcher from "@/components/Inputs/Switcher";
+import Button from "@/components/buttons/Button";
+import { cn } from "@/lib/utils";
+import { useMutation } from "react-query";
 
 function ViewCustomerProfile({ user }: { user: string }) {
   const [loading, setLoading] = useState(true);
@@ -72,6 +76,33 @@ function ViewCustomerProfile({ user }: { user: string }) {
     }
   };
 
+  const blockUser = useMutation({
+    mutationKey: ["block_user"],
+    mutationFn: async () => {
+      try {
+        const req = await client
+          .get("/api/v1/user/block/" + data?.user._id)
+          .send<UserProfileFullData>(AdminAuthToken());
+
+        return req;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: () => {
+      // Success message
+      console.log("User blocked successfully.");
+      toast.success("User blocked successfully.");
+      loadUsers();
+      // Reset the form
+    },
+    onError: (error: any) => {
+      // Error message
+      console.log(error);
+      toast.error(error?.response.message || error.message);
+    },
+  });
+
   if (loading) {
     return <Loader />;
   }
@@ -89,7 +120,23 @@ function ViewCustomerProfile({ user }: { user: string }) {
       <Breadcrumb pageName={data?.user.name || ""} />
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="">
-          <TitleCard title="Profile Info">
+          <TitleCard
+            title="Profile Info"
+            action={
+              <div className="flex gap-2 items-center">
+                <button
+                  className={cn(
+                    "px-4 py-1 text-sm text-white rounded-xl w-auto bg-primary",
+                    data?.user.isBlocked && "bg-red"
+                  )}
+                  disabled={blockUser.isLoading}
+                  onClick={() => blockUser.mutate()}
+                >
+                  {data?.user.isBlocked ? "Unblock" : "Block"} User
+                </button>
+              </div>
+            }
+          >
             <div className="p-6 flex flex-col gap-2">
               <Image
                 src={client.baseUrl + "/" + data?.user.image}
@@ -113,23 +160,7 @@ function ViewCustomerProfile({ user }: { user: string }) {
             </div>
           </TitleCard>
           <br />
-          <TitleCard title="Bank Accounts">
-            <div className="p-6">
-              {data?.banks.map((e) => {
-                return (
-                  <div
-                    key={e._id}
-                    className="  px-4 py-3 rounded-md mb-3 bg-gray dark:bg-slate-700"
-                  >
-                    <p>Bank Name: {e.name}</p>
-                    <p>Bank Ifsc: {e.ifscCode}</p>
-                    <p>Account Number: {e.accountNumber}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </TitleCard>
-          <br />
+
           <TitleCard title="Holdings">
             <div className="p-3 bg-[#002b36]">
               <JsonView

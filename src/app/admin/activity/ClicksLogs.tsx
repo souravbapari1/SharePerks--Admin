@@ -11,7 +11,7 @@ function ClicksLogs() {
   const [page, setPage] = useState(1);
   const query = useQuery(["clicksLogs", page], async () => {
     return await client
-      .get("/api/v1/tracker/click-activity", {
+      .get("/api/v1/tracker/all", {
         page: page,
       })
       .send<LogData>();

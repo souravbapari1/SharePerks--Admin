@@ -17,6 +17,7 @@ export interface CommotionData {
   __v: number;
   brandData: BrandData;
   userData: UserData;
+  providerCommotion?: number
 }
 
 export interface Data {

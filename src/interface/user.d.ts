@@ -12,6 +12,7 @@ export interface UserProfileInfo {
   __v: number;
   email: string;
   name: string;
+  isBlocked: boolean;
 }
 
 export interface UserProfileFullData {

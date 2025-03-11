@@ -41,7 +41,10 @@ const CommitionsList = ({
                 Status
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
-                CashBack
+                User CashBack
+              </th>
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
+                Provider CashBack
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Order Amount
@@ -78,6 +81,9 @@ const CommitionsList = ({
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   {item.payAmount.toFixed(2)}
+                </td>
+                <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                  {(item.providerCommotion || 0).toFixed(2)}
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   {item.amount.toFixed(2)}

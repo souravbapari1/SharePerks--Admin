@@ -6,6 +6,7 @@ import { downloadExcel } from "@/helper/exceel";
 import { UserProfileInfo } from "@/interface/user";
 import { formatDate } from "@/lib/formateTime";
 import { AdminAuthToken, client } from "@/lib/request/actions";
+import { cn } from "@/lib/utils";
 import { toast } from "material-react-toastify";
 import { tree } from "next/dist/build/templates/app-page";
 import Image from "next/image";
@@ -146,7 +147,10 @@ const ShowCustomers = () => {
           return (
             <div
               key={e._id}
-              className={`grid grid-cols-3 sm:grid-cols-5 border-b border-stroke dark:border-strokedark`}
+              className={cn(
+                `grid grid-cols-3 sm:grid-cols-5 border-b border-stroke dark:border-strokedark`,
+                e.isBlocked && "bg-red/10"
+              )}
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-5">
                 <div className="flex-shrink-0 sm:flex hidden">
