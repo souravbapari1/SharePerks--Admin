@@ -41,6 +41,14 @@ function UpdateForm({
   const [content, setContent] = React.useState(product.taq || "");
   const [bannerImage, setBannerImage] = React.useState<File | null>(null);
   const [redeemSteps, setRedeemSteps] = useState(product.redeemSteps || "");
+  const [brokerName, setBrokerName] = useState(product.brokerName || "");
+  const [onlineOfflineBoth, setOnlineOfflineBoth] = useState(
+    product.onlineOfflineBoth || ""
+  );
+  const [redemption, setRedemption] = useState(product.redemption || "");
+  const [maximumGiftCard, setMaximumGiftCard] = useState(
+    product.maximumGiftCard || ""
+  );
 
   const [brokerProvider, setBrokerProvider] = React.useState<
     | {
@@ -74,6 +82,7 @@ function UpdateForm({
     }
   };
   const handleBrokerProviderChange = (e: { label: string; value: string }) => {
+    setBrokerName(e.label);
     setBrokerProvider(e);
   };
   const handlePricingChange = (
@@ -157,6 +166,10 @@ function UpdateForm({
           showOnBanner,
           showOnHome,
           redeemSteps,
+          onlineOfflineBoth,
+          redemption,
+          maximumGiftCard,
+          brokerName: brokerName,
         });
 
         if (bannerImage) {
@@ -252,7 +265,7 @@ function UpdateForm({
           <TitleCard title="Additional info">
             <div className="p-5">
               <FileInput
-                label="Banner Image"
+                label="Banner Image (recommended: 1930 x 1000)"
                 onChange={handleBannerImageChange}
               />
               <br />
@@ -334,9 +347,43 @@ function UpdateForm({
           </TitleCard>
         </div>
 
+        <div className="col-span-2 my-3">
+          <TitleCard title="Card Information">
+            <div className="p-5 flex  gap-5">
+              <div className="w-full">
+                <Input
+                  label="Online/ Offline/ Both"
+                  value={onlineOfflineBoth}
+                  onChange={(e) => {
+                    setOnlineOfflineBoth(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Multiple/ One time redemption"
+                  value={redemption}
+                  onChange={(e) => {
+                    setRedemption(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Maximum Gift Cards"
+                  value={maximumGiftCard}
+                  onChange={(e) => {
+                    setMaximumGiftCard(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+          </TitleCard>
+        </div>
+
         {/* // Redeem Steps */}
         <div className="col-span-2">
-          <TitleCard title="Redeem Steps">
+          <TitleCard title="Information">
             <TextEditor
               content={redeemSteps}
               onChange={(e) => {

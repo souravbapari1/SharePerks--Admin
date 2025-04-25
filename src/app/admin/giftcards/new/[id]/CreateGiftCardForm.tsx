@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCard from "@/components/cards/TitleCard";
 import FileInput from "@/components/Inputs/FilesInput";
 import Input from "@/components/Inputs/Input";
@@ -30,6 +30,10 @@ function CreateGiftCardForm({
   const [activeStatus, setActiveStatus] = useState(false);
   const [showOnBanner, setShowOnBanner] = useState(false);
   const [showOnHome, setShowOnHome] = useState(false);
+  const [onlineOfflineBoth, setOnlineOfflineBoth] = useState("");
+  const [redemption, setRedemption] = useState("");
+  const [maximumGiftCard, setMaximumGiftCard] = useState("");
+  const [brokerName, setBrokerName] = useState("");
 
   const [description, setDescription] = useState(data.data.Descriptions || "");
   const [termsAndConditions, setTermsAndConditions] = useState(
@@ -55,7 +59,10 @@ function CreateGiftCardForm({
   const handleBrokerProviderChange = (selectedBroker: {
     label: string;
     value: string;
-  }) => setBrokerProvider(selectedBroker);
+  }) => {
+    setBrokerName(selectedBroker.label);
+    setBrokerProvider(selectedBroker);
+  };
   const handlePayUserHaveHoldingChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => setPayUserHaveHolding(e.target.value);
@@ -138,6 +145,10 @@ function CreateGiftCardForm({
           data: JSON.stringify(data.data),
           showOnBanner: showOnBanner,
           showOnHome: showOnHome,
+          onlineOfflineBoth: onlineOfflineBoth,
+          redemption: redemption,
+          maximumGiftCard: maximumGiftCard,
+          brokerName: brokerName,
         })
         .append("file", bannerImage!)
         .send(AdminAuthToken());
@@ -152,6 +163,65 @@ function CreateGiftCardForm({
       toast.error(error?.response?.message || error.message.toString());
     }
   };
+
+  const generateInformation = () => {
+    const redeemSteps = JSON.parse(data.data.redeemSteps || "{}");
+    const keys = Object.keys(redeemSteps);
+    let redeemStepsDataHtml = `
+    <h3 style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; color: rgb(33, 37, 41); font-family: Rubik, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 1.5rem;\">
+Redemption Steps
+    </h3>
+    `;
+    const steps = keys.map((e) => {
+      return `
+      
+      <div>
+
+      <br/>
+
+        <div >
+          <h3 style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; color: rgb(33, 37, 41); font-family: Rubik, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 1rem;">
+Step ${e}
+          </h3>
+          <p>${redeemSteps[e].text}</p>
+        </div>
+        <div>
+        
+       
+      <img src="${redeemSteps[e].image}" alt="Brand" width="auto" height="auto" style="max-width: 100%;">
+        </div>
+        <br/>
+      </div>
+      `;
+    });
+
+    redeemStepsDataHtml = redeemStepsDataHtml + steps.join("");
+
+    redeemStepsDataHtml =
+      redeemStepsDataHtml +
+      `
+      <br/>
+        <h3 style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; color: rgb(33, 37, 41); font-family: Rubik, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 1.5rem;">
+  Important Instructions
+        </h3>
+  ${data.data.importantInstruction}
+      <br/>
+    <h3 style="box-sizing: border-box; margin-top: 0px; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; color: rgb(33, 37, 41); font-family: Rubik, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 1.5rem;">
+  Terms &amp; Conditions
+  </h3>
+  <p>${data.data.tnc}</p>
+    `;
+
+    setRedeemSteps(`
+    <div class="">
+        ${redeemStepsDataHtml}
+    </div>    
+      `);
+  };
+
+  useEffect(() => {
+    generateInformation();
+  }, [data]);
 
   return (
     <div className="grid grid-cols-2 gap-5">
@@ -239,7 +309,7 @@ function CreateGiftCardForm({
         <TitleCard title="Basic Info">
           <div className="p-5">
             <FileInput
-              label="Banner Image"
+              label="Banner Image (recommended: 1930 x 1000)"
               onChange={(e) => {
                 if (e.target.files) {
                   handleBannerImageChange(e.target.files[0]);
@@ -271,6 +341,34 @@ function CreateGiftCardForm({
               type="number"
               onChange={handlePayUserNoHoldingChange}
             />
+          </div>
+        </TitleCard>
+      </div>
+
+      <div className="col-span-2 my-3">
+        <TitleCard title="Card Information">
+          <div className="p-5 flex  gap-5">
+            <div className="w-full">
+              <Input
+                label="Online/ Offline/ Both"
+                value={onlineOfflineBoth}
+                onChange={(e) => setOnlineOfflineBoth(e.target.value)}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Multiple/ One time redemption"
+                value={redemption}
+                onChange={(e) => setRedemption(e.target.value)}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Maximum Gift Cards"
+                value={maximumGiftCard}
+                onChange={(e) => setMaximumGiftCard(e.target.value)}
+              />
+            </div>
           </div>
         </TitleCard>
       </div>

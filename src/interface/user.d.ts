@@ -11,8 +11,11 @@ export interface UserProfileInfo {
   updatedAt: string;
   __v: number;
   email: string;
+  emailAlerts: boolean;
   name: string;
   isBlocked: boolean;
+  savingAmount: number;
+  version: string
 }
 
 export interface UserProfileFullData {

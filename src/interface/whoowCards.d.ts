@@ -16,6 +16,10 @@ export interface WhoowCard {
   showOnBanner?: boolean;
   showOnHome?: boolean;
   redeemSteps?: string;
+  brokerName?: string;
+  redemption?: string;
+  maximumGiftCard?: string;
+  onlineOfflineBoth?: string;
 }
 
 export interface Pricing {

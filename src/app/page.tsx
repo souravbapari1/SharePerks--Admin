@@ -1,7 +1,16 @@
+"use client";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
-export const revalidate = 0;
+import React, { useEffect } from "react";
+
 function page() {
+  const session = useSession();
+  useEffect(() => {
+    if (session.status == "authenticated") {
+      signOut();
+      localStorage.clear();
+    }
+  }, [session]);
   return (
     <div className="flex justify-center items-center w-full h-screen flex-col gap-4 text-2xl">
       Welcome To SharePerks Admin

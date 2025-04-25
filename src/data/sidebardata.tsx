@@ -1,5 +1,10 @@
 import { SideBarDataSet } from "@/components/WorkSpace/SideBar/Sidebar";
-import { BiNotification, BiSolidOffer } from "react-icons/bi";
+import {
+  BiMobileLandscape,
+  BiNotification,
+  BiSolidOffer,
+} from "react-icons/bi";
+import { BsAndroid } from "react-icons/bs";
 import { FaPercent, FaUser } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { HiBanknotes } from "react-icons/hi2";
@@ -220,6 +225,12 @@ export const menuGroups: SideBarDataSet[] = [
         icon: <MdAppRegistration size={20} />,
         label: "App Content",
         route: "/admin/app-content",
+        key: "app_content",
+      },
+      {
+        icon: <BsAndroid size={20} />,
+        label: "App Version",
+        route: "/admin/version",
         key: "app_content",
       },
       {

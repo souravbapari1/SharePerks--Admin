@@ -13,6 +13,7 @@ async function page({ params }: { params: { id: string } }) {
     const data = await client
       .get("/api/v1/giftcard/vouchagram/brands/" + params.id)
       .send<GyftrBrands>();
+
     // Fetch brands
     const brands = await client.get("/api/v1/brand/all").send<BrandData[]>();
     return (

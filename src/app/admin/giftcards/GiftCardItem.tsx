@@ -70,8 +70,12 @@ function GiftCardItem({ data }: { data: GiftCardData }) {
       <div className="flex items-center justify-center p-2.5 xl:p-5">
         <p className="text-black dark:text-white">{data.data.Brandtype}</p>
       </div>
-      <div className="flex items-center justify-center p-2.5 xl:p-5">
-        <p className="text-meta-3">{data.data.denominationList}</p>
+      <div className="flex items-center p-2.5 xl:p-5">
+        <p className="text-meta-3 flex flex-wrap gap-1 text-xs font-bold">
+          {data.data.denominationList.split(",").map((e, i) => {
+            return <span key={i}>₹{e}, </span>;
+          })}
+        </p>
       </div>
       <div className="flex items-center justify-center p-2.5 xl:p-5">
         <p

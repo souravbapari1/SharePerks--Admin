@@ -13,12 +13,6 @@ const SearchBroker: React.FC<SearchBrokerProps> = ({ onClose, onClick }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  // Filter stocks based on the search term
-  const filteredStocks = stocks.filter((stock) => {
-    const regex = new RegExp(searchTerm, "i"); // 'i' for case-insensitive matching
-    return regex.test(stock.label) || regex.test(stock.value);
-  });
-
   const searchBrokers = useMutation({
     mutationKey: ["searchBrokers", searchTerm],
     mutationFn: getAllBrokers,

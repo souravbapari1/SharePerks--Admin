@@ -32,6 +32,14 @@ function UpdateGiftCardForm({
   const [activeStatus, setActiveStatus] = useState(data.isEnable || false);
   const [showOnBanner, setShowOnBanner] = useState(data.showOnBanner || false);
   const [showOnHome, setShowOnHome] = useState(data.showOnHome || false);
+  const [brokerName, setBrokerName] = useState(data.brokerName || "");
+  const [onlineOfflineBoth, setOnlineOfflineBoth] = useState(
+    data.onlineOfflineBoth || ""
+  );
+  const [redemption, setRedemption] = useState(data.redemption || "");
+  const [maximumGiftCard, setMaximumGiftCard] = useState(
+    data.maximumGiftCard || ""
+  );
 
   const [description, setDescription] = useState(data.data.Descriptions || "");
   const [termsAndConditions, setTermsAndConditions] = useState(
@@ -65,7 +73,10 @@ function UpdateGiftCardForm({
   const handleBrokerProviderChange = (selectedBroker: {
     label: string;
     value: string;
-  }) => setBrokerProvider(selectedBroker);
+  }) => {
+    setBrokerName(selectedBroker.label);
+    setBrokerProvider(selectedBroker);
+  };
   const handlePayUserHaveHoldingChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => setPayUserHaveHolding(e.target.value);
@@ -134,6 +145,10 @@ function UpdateGiftCardForm({
         data: JSON.stringify(data.data),
         showOnBanner: showOnBanner,
         showOnHome: showOnHome,
+        onlineOfflineBoth: onlineOfflineBoth,
+        redemption: redemption,
+        maximumGiftCard: maximumGiftCard,
+        brokerName: brokerName,
       });
       if (bannerImage) {
         saveTaskQuery.append("file", bannerImage!);
@@ -238,7 +253,7 @@ function UpdateGiftCardForm({
         <TitleCard title="Basic Info">
           <div className="p-5">
             <FileInput
-              label="Banner Image"
+              label="Banner Image (recommended: 1930 x 1000)"
               onChange={(e) => {
                 if (e.target.files) {
                   handleBannerImageChange(e.target.files[0]);
@@ -273,6 +288,35 @@ function UpdateGiftCardForm({
           </div>
         </TitleCard>
       </div>
+
+      <div className="col-span-2 my-3">
+        <TitleCard title="Card Information">
+          <div className="p-5 flex  gap-5">
+            <div className="w-full">
+              <Input
+                label="Online/ Offline/ Both"
+                value={onlineOfflineBoth}
+                onChange={(e) => setOnlineOfflineBoth(e.target.value)}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Multiple/ One time redemption"
+                value={redemption}
+                onChange={(e) => setRedemption(e.target.value)}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Maximum Gift Cards"
+                value={maximumGiftCard}
+                onChange={(e) => setMaximumGiftCard(e.target.value)}
+              />
+            </div>
+          </div>
+        </TitleCard>
+      </div>
+
       <div className="col-span-2">
         <TitleCard title="Redeem Steps">
           <TextEditor

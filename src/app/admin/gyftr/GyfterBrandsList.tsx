@@ -75,9 +75,14 @@ function GyfterBrandsList({ data }: { data: GyftrBrands[] }) {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className="text-meta-3">{e.data.denominationList}</p>
+                <div className="flex items-center ">
+                  <p className="text-meta-3 flex flex-wrap gap-1 text-xs font-bold">
+                    {e.data.denominationList.split(",").map((e, i) => {
+                      return <span key={i}>₹{e}, </span>;
+                    })}
+                  </p>
                 </div>
+
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
                   <p
                     className={cn(

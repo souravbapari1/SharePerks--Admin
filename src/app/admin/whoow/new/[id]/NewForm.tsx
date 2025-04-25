@@ -9,6 +9,7 @@ import { SelectBrokerInput } from "@/components/models/SearchBroker";
 import { BrandData } from "@/interface/brand";
 import { WhoowProduct } from "@/interface/whoowProducts";
 import { AdminAuthToken, client } from "@/lib/request/actions";
+import { on } from "events";
 import { toast } from "material-react-toastify";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -25,15 +26,22 @@ function NewForm({
   product: WhoowProduct;
   brands: BrandData[];
 }) {
+  console.log(product);
+
   const router = useRouter();
   const [isEnable, setIsEnable] = useState(false);
   const [showOnBanner, setShowOnBanner] = useState(false);
   const [showOnHome, setShowOnHome] = useState(false);
   const [redeemSteps, setRedeemSteps] = useState("");
 
+  const [onlineOfflineBoth, setOnlineOfflineBoth] = useState("");
+  const [redemption, setRedemption] = useState("");
+  const [maximumGiftCard, setMaximumGiftCard] = useState("");
+
   const [description, setDescription] = React.useState("");
   const [content, setContent] = React.useState("");
   const [bannerImage, setBannerImage] = React.useState<File | null>(null);
+  const [brokerName, setBrokerName] = useState("");
   const [brokerProvider, setBrokerProvider] = React.useState<{
     label: string;
     value: string;
@@ -60,6 +68,7 @@ function NewForm({
     }
   };
   const handleBrokerProviderChange = (e: { label: string; value: string }) => {
+    setBrokerName(e.label);
     setBrokerProvider(e);
   };
   const handlePricingChange = (
@@ -140,6 +149,7 @@ function NewForm({
     setContent("");
     setBannerImage(null);
     setBrokerProvider(undefined);
+    setBrokerName("");
     setPricing([{ amount: 0, withBroker: 0, withOutBroker: 0 }]);
   };
 
@@ -161,6 +171,10 @@ function NewForm({
             showOnBanner,
             showOnHome,
             redeemSteps,
+            onlineOfflineBoth,
+            redemption,
+            maximumGiftCard,
+            brokerName: brokerName,
           })
           .append("file", bannerImage!)
           .send(AdminAuthToken());
@@ -257,7 +271,7 @@ function NewForm({
           <TitleCard title="Additional info">
             <div className="p-5">
               <FileInput
-                label="Banner Image"
+                label="Banner Image (recommended: 1930 x 1000)"
                 onChange={handleBannerImageChange}
               />
               <br />
@@ -339,10 +353,44 @@ function NewForm({
           </TitleCard>
         </div>
 
+        <div className="col-span-2 my-3">
+          <TitleCard title="Card Information">
+            <div className="p-5 flex  gap-5">
+              <div className="w-full">
+                <Input
+                  label="Online/ Offline/ Both"
+                  value={onlineOfflineBoth}
+                  onChange={(e) => {
+                    setOnlineOfflineBoth(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Multiple/ One time redemption"
+                  value={redemption}
+                  onChange={(e) => {
+                    setRedemption(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Maximum Gift Cards"
+                  value={maximumGiftCard}
+                  onChange={(e) => {
+                    setMaximumGiftCard(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+          </TitleCard>
+        </div>
+
         {/* // Redeem Steps */}
 
         <div className="col-span-2">
-          <TitleCard title="Redeem Steps">
+          <TitleCard title="Information">
             <TextEditor
               content={redeemSteps}
               onChange={(e) => {

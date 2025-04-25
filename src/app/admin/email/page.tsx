@@ -18,9 +18,8 @@ function page() {
     mutationFn: async () => {
       const data = await axios.post("https://worker.shareperks.in/mail", {
         body: content,
-        to: users.map((e) => e._id),
+        to: users.filter((e) => e.emailAlerts == true).map((e) => e.email),
       });
-
       return data.data;
     },
     onSuccess: () => {

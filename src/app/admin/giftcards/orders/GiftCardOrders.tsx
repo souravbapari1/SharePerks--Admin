@@ -5,8 +5,10 @@ import { client } from "@/lib/request/actions";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { BiLoader } from "react-icons/bi";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { GiftCardOrder } from "./giftcards";
+import { BsSend } from "react-icons/bs";
+import { toast } from "material-react-toastify";
 
 function FailedList() {
   const [page, setPage] = useState(1);
@@ -24,6 +26,28 @@ function FailedList() {
         .send<GiftCardOrder>();
     },
   });
+
+  const sendResendEmailMutate = useMutation({
+    mutationKey: ["resendEmail"],
+    mutationFn: async (orderId: string) => {
+      toast.dismiss();
+      toast.loading("Resending Email...");
+      return await client
+        .get("/api/v1/notify/resend/giftcard/" + orderId)
+        .send<{ status: boolean; message: string }>();
+    },
+    onSuccess: () => {
+      toast.dismiss();
+      toast.success("Email Resend Successfully");
+    },
+    onError: (error: any) => {
+      console.log(error);
+
+      toast.dismiss();
+      toast.error(error?.response?.message || error.message);
+    },
+  });
+
   return (
     <TitleCard
       title="Gift Card Orders"
@@ -51,8 +75,8 @@ function FailedList() {
               <th className="p-3 border border-gray text-center">Card Name</th>
               <th className="p-3 border border-gray">Pay Amount</th>
               <th className="p-3 border border-gray">Payment ID</th>
-
               <th className="p-3 border border-gray">Date</th>
+              <th className="p-3 border border-gray">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +103,19 @@ function FailedList() {
 
                 <td className="p-3 border border-gray">
                   {formatDate(order.createdAt)}
+                </td>
+                <td className="p-3 border border-gray">
+                  <BsSend
+                    className="text-green-600"
+                    size={22}
+                    onClick={() => {
+                      if (!sendResendEmailMutate.isLoading) {
+                        if (confirm("Are you sure Resend Email?")) {
+                          sendResendEmailMutate.mutate(order._id);
+                        }
+                      }
+                    }}
+                  />
                 </td>
               </tr>
             ))}

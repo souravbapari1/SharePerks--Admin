@@ -20,6 +20,10 @@ export interface GiftCardData {
   brand: Brand;
   showOnBanner?: boolean;
   showOnHome?: boolean;
+  onlineOfflineBoth?: string
+  redemption?: string
+  maximumGiftCard?: string
+  brokerName?: string;
 }
 
 export interface Data {

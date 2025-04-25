@@ -162,9 +162,12 @@ const ShowCustomers = () => {
                     height={48}
                   />
                 </div>
-                <p className=" text-black capitalize dark:text-white ">
-                  {e.name}
-                </p>
+                <div className="">
+                  <p className=" text-black capitalize dark:text-white ">
+                    {e.name}
+                  </p>
+                  <p className="text-xs">{e.version || "N/A"}</p>
+                </div>
               </div>
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">
