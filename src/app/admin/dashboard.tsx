@@ -108,7 +108,7 @@ function Dashboard({
           icon={<GiClick />}
         />
         <CardDataStats
-          title="Whoow Gift Cards"
+          title="Pinelabs Gift Cards"
           total={data.giftcards.whoow.toString()}
           icon={<PiCardsBold />}
         />

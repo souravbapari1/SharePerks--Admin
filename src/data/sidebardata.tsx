@@ -33,7 +33,7 @@ export const permissionList = [
   { text: "Manage Brands", value: "manage_brands" },
   { text: "Manage Offers", value: "manage_offers" },
   { text: "Manage Grifter Coupons", value: "grifter_coupones" },
-  { text: "Manage Whoow Coupons", value: "whoow_coupones" },
+  { text: "Manage Pinelabs Coupons", value: "whoow_coupones" },
   { text: "Manage App Content", value: "app_content" },
   { text: "Manage Admin", value: "manage_admin" },
   { text: "Cuelinks Campaign", value: "cuelinks_campaign" },
@@ -202,7 +202,7 @@ export const menuGroups: SideBarDataSet[] = [
       },
       {
         icon: <TbGiftCard size={20} />,
-        label: "Whoow Coupons",
+        label: "Pinelabs Coupons",
         route: "#",
         key: "whoow_coupones",
         children: [

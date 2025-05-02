@@ -40,7 +40,7 @@ function page() {
 
   return (
     <WorkSpace menuGroups={menuGroups}>
-      <Breadcrumb pageName="Whoow Products" />
+      <Breadcrumb pageName="Pinelabs Products" />
       <ListWhoowProducts data={data} />
     </WorkSpace>
   );

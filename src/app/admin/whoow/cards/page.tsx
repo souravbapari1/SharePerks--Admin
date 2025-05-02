@@ -7,7 +7,7 @@ import GiftCardsList from "./GiftCardsList";
 function page() {
   return (
     <WorkSpace menuGroups={menuGroups}>
-      <Breadcrumb pageName="Whoow GiftCards Cards" />
+      <Breadcrumb pageName="Pinelabs GiftCards Cards" />
       <GiftCardsList />
     </WorkSpace>
   );

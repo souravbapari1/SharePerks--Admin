@@ -190,7 +190,7 @@ function NewForm({
 
   return (
     <div>
-      <Breadcrumb pageName="Create New Whoow GiftCard" />
+      <Breadcrumb pageName="Create New Pinelabs GiftCard" />
       <div className="grid lg:grid-cols-2 gap-6">
         <div className="">
           <TitleCard
