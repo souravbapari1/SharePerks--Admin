@@ -263,7 +263,7 @@ function UpdateGiftCardForm({
             <br />
             <div className="">
               <label className="mb-0 block text-sm font-medium text-black dark:text-white">
-                Broker Provider
+                Company Name Provider
               </label>
               <SelectBrokerInput
                 value={brokerProvider}

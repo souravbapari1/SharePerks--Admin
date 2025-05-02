@@ -68,7 +68,7 @@ function BrandLinks({ categories }: { categories: CategoryData[] }) {
         </div>
         <br />
         <div className="">
-          <label>Broker Provider</label>
+          <label>Company Name Provider</label>
           <SelectBrokerInput
             className="mt-2 cursor-pointer"
             value={state.stockISIN}
