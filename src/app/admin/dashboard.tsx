@@ -20,6 +20,7 @@ import Loader from "../loading";
 import { PiCardsBold } from "react-icons/pi";
 import { MdOutlineBorderStyle } from "react-icons/md";
 import { RiRefund2Fill } from "react-icons/ri";
+import Link from "next/link";
 
 function Dashboard({
   payment,
@@ -108,7 +109,7 @@ function Dashboard({
           icon={<GiClick />}
         />
         <CardDataStats
-          title="Pinelabs Gift Cards"
+          title="Whoow Gift Cards"
           total={data.giftcards.whoow.toString()}
           icon={<PiCardsBold />}
         />
@@ -122,16 +123,20 @@ function Dashboard({
           total={data.giftcards.sucessOrders.toString()}
           icon={<PiCardsBold />}
         />
-        <CardDataStats
-          title="Total Gift Order Amount"
-          total={payment.total.toString() + " RS"}
-          icon={<MdOutlineBorderStyle />}
-        />
-        <CardDataStats
-          title="Total Gift Order Refund Amount"
-          total={payment.refund.toString() + " RS"}
-          icon={<RiRefund2Fill />}
-        />
+        <Link href="/admin/giftcards/orders">
+          <CardDataStats
+            title="Total Gift Order Amount"
+            total={payment.total.toString() + " RS"}
+            icon={<MdOutlineBorderStyle />}
+          />
+        </Link>
+        <Link href="/admin/giftcards/failed">
+          <CardDataStats
+            title="Total Gift Order Refund Amount"
+            total={payment.refund.toString() + " RS"}
+            icon={<RiRefund2Fill />}
+          />
+        </Link>
       </div>
       <br />
 
